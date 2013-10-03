@@ -1,0 +1,37 @@
+﻿<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Copyright" content="api test" />
+<meta name="description" content="api test" />
+<meta content="api test" name="keywords" />
+<link href="css/css.css" rel="stylesheet" type="text/css" />
+ <style type="text/css" media="screen">
+#flashContent { width:1200px; height:700px; margin: 80px 0 0 0;}
+	</style>
+
+<script language="javascript" type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script language="javascript" type="text/javascript" src="Scripts/swfobject.js"></script>
+<title>demo</title>
+
+        <script type="text/javascript">
+            var flashvars = {};  
+		    var params = {};
+		    params.quality = "high";
+		    params.wmode = "transparent";
+		    params.play = "true";
+		    params.loop = "true";
+		    params.scale = "noscale";
+		    params.devicefont = "false";
+		    params.allowScriptAccess = "always";
+		    var attributes = { id: "mainflash" };
+		    swfobject.embedSWF("flash/main.swf?rd=" + getRandom(9999), "flashContent", "1200", "700", "11.0.0", "expressInstall.swf", flashvars, params, attributes);
+		    function getRandom(n) { return Math.floor(Math.random() * n + 1) }
+            </script>
+</head>
+<body>
+<div class="flashimg" >
+<div id="flashContent"> <h1>Please update your flash player</h1><p><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a></p></div>
+	
+</div>
+</body>
+</html>

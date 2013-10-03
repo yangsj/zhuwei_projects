@@ -49,14 +49,14 @@ package victor
 		
 		private function completeEditCompFunc2():void
 		{
-			_container.removeChildren();
+			DisplayUtil.removeAll( _container );
 			_container.addChild( _uploadNowPicComp );
 			_uploadNowPicComp.setBitmap( new Bitmap(_editAreaComp.bitmapData, "auto", true) );
 		}
 		
 		private function oepnCamera():void
 		{
-			_container.removeChildren();
+			DisplayUtil.removeAll( _container );
 			_container.addChild( _mediaComp );
 			_mediaComp.setOldBitmap( new Bitmap(_editAreaComp.bitmapData, "auto", true) );
 			_mediaComp.startMedia();
@@ -72,16 +72,17 @@ package victor
 		
 		protected function takeAPhotoHandler(event:Event):void
 		{
-			_container.removeChildren();
+			DisplayUtil.removeAll( _container );
 			_container.addChild(_editAreaComp);
 			_editAreaComp.setLoader( new Bitmap(_mediaComp.bitmapData, "auto", true ));
 		}
 		
 		protected function confirmCommitHandler(event:Event):void
 		{
-			_container.removeChildren();
+			DisplayUtil.removeAll( _container );
 			_container.addChild(_completeEditComp);
 			_completeEditComp.setBitmap( new Bitmap(_editAreaComp.bitmapData, "auto", true) );
+			_completeEditComp.setLabel( _editAreaComp.currentYear );
 		}
 		
 		protected function selectedAgainHandler(event:Event):void
@@ -94,7 +95,7 @@ package victor
 			var loader:Loader = event.data as Loader;
 			if ( _uploadNowPicComp.parent )
 			{
-				_container.removeChildren();
+				DisplayUtil.removeAll( _container );
 				_container.addChild(_mediaComp);
 				_mediaComp.setOldBitmap(new Bitmap(_editAreaComp.bitmapData, "auto", true) );
 				_mediaComp.setNewLoader( loader );
@@ -105,7 +106,7 @@ package victor
 			}
 			else
 			{
-				_container.removeChildren();
+				DisplayUtil.removeAll( _container );
 				_container.addChild(_editAreaComp);
 				_editAreaComp.setLoader( loader );
 			}

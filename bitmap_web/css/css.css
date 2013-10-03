@@ -1,0 +1,56 @@
+@charset "utf-8";
+body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legend,button,input,textarea,th,td{margin:0;padding:0;}
+body,button,input,select,textarea{font:12px/1.5 tahoma,\5b8b\4f53,Microsoft YaHei,arial;color:#fff;}
+h1,h2,h3,h4,h5,h6{font-size:100%;}
+address,cite,dfn,em,var{font-style:normal;}
+code,kbd,pre,samp{font-family:courier new,courier,monospace;}
+small{font-size:12px;}
+ul,ol{list-style:none;}
+a{text-decoration:none;}
+a:hover{text-decoration:underline;}
+sup{vertical-align:text-top;}
+sub{vertical-align:text-bottom;}
+legend{color:#fff;}
+fieldset,img{border:0;}
+button,input,select,textarea{font-size:100%;}
+table{border-collapse:collapse;border-spacing:0;}
+select { font-size:14px; }
+legend { display:none; }
+address, caption, em, strong, th, i { font-style:normal; font-weight:400; }
+table caption { margin-left:-1px; }
+html, body { -webkit-text-size-adjust:none; }
+/*html { overflow:-moz-scrollbars-vertical; } Always show Firefox scrollbar*/
+table, table td, table th { border-collapse:collapse; border-spacing:0; }
+a {text-decoration:none; color:#fff; outline:none; cursor:pointer; }
+a:hover { text-decoration:underline }
+/*字体*/
+.SimSun { font-family:'SimSun'; }
+.yh{font-family:\5FAE\8F6F\96C5\9ED1;}
+/*定位*/
+.pr { position:relative; }
+.pa { position:absolute; }
+.db{display:block;}
+.zoom { zoom:1; }
+/*清除浮动*/
+.clfix{*zoom:1;}
+.clfix:after{content:'\20';display:block;height:0;clear:both;}
+.cb { clear:both; }
+/* 去除chrome输入框焦点效果 */
+input,button,select,textarea{outline:none}
+.ipt-t,.ipt-a{border:1px solid #ccc;padding:3px;}
+/*分页样式a*/
+.page-style-a{color:#999;font-size:12px;}
+.page-style-a a,
+.page-style-a span.page-here{margin:0 6px 0 0;display:inline-block;height:22px;border:1px solid #cdcecd;line-height:22px;color:#4f63e6;}
+.page-style-a a.btn-pre{padding:0 7px 0 18px;background:#fff url(../Images/ib_08.gif) no-repeat 5px 7px;}
+.page-style-a a.btn-next{padding:0 18px 0 7px;background:#fff url(../Images/ib_07.gif) no-repeat 52px 7px;}
+.page-style-a a.btn-normal{padding:0 10px;background-color:#fff;}
+.page-style-a span.page-here{padding:0 5px;border:1px solid #fff;color:#999;background-color:#fff;font-weight:700;}
+.page-style-a a:hover{text-decoration:none;}
+.page-style-a span.page-info{padding:0 5px 0 0;}
+.page-style-a .page-text{margin:0 3px;text-align:center;border:1px solid #cdcecd;width:30px;height:22px;line-height:22px;vertical-align:middle;}
+.page-style-a .page-submit{margin:0 0 0 3px;vertical-align:middle;}
+.page-style-a span.page-dot{margin:0 8px 0 3px;}
+/*框架*/
+body{background:url(../images/bg.jpg) no-repeat center 0;height:750px;}
+.flashimg{position:relative;width:1200px;margin:0 auto;top:75px;}

@@ -14,6 +14,8 @@ package victor.comp
 	import flash.media.Camera;
 	import flash.media.Video;
 	
+	import victor.DisplayUtil;
+	
 	public class MediaComp extends Sprite
 	{
 		private const camera:Camera = Camera.getCamera();
@@ -58,8 +60,10 @@ package victor.comp
 			_btnAgainPhoto = skin.btnAgainPhoto;
 			_btnAgainLoad = skin.btnAgainLoad;
 			
+			_newPic.buttonMode = true;
+			
+			DisplayUtil.removeAll( _newPic );
 			_tempSprite = new Sprite();
-			_newPic.removeChildren();
 			_newPic.addChild(_tempSprite);
 			
 			_btnPhoto.addEventListener(MouseEvent.CLICK, onClickHandler );
@@ -134,13 +138,13 @@ package victor.comp
 		
 		public function setOldBitmap( bitmap:Bitmap ):void
 		{
-			_oldPic.removeChildren();
+			DisplayUtil.removeAll( _oldPic );
 			_oldPic.addChild( bitmap );
 		}
 		
 		public function setNewLoader( loader:Loader ):void
 		{
-			_tempSprite.removeChildren();
+			DisplayUtil.removeAll( _tempSprite );
 			_tempSprite.addChild( loader );
 			
 			_btnZoonIn.visible = true;
@@ -166,7 +170,7 @@ package victor.comp
 		
 		public function setNewBitmap( bitmap:Bitmap ):void
 		{
-			_tempSprite.removeChildren();
+			DisplayUtil.removeAll( _tempSprite );
 			_tempSprite.addChild( bitmap );
 			bitmap.scaleY = bitmap.scaleX = 1 / _area.scaleX;
 			
@@ -209,7 +213,7 @@ package victor.comp
 				camera.addEventListener(ActivityEvent.ACTIVITY, activityHandler);
 				video ||= new Video(515, 380);
 				video.attachCamera(camera);
-				_tempSprite.removeChildren();
+				DisplayUtil.removeAll( _tempSprite );
 				_tempSprite.addChild(video);
 			}
 			else 

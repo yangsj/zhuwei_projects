@@ -4,6 +4,9 @@ package victor.comp
 	import flash.display.SimpleButton;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
+	import flash.text.TextField;
+	
+	import victor.DisplayUtil;
 	
 	public class CompleteEditComp extends Sprite
 	{
@@ -12,6 +15,7 @@ package victor.comp
 		private var btnCompare:SimpleButton;
 		private var btnUpload:SimpleButton;
 		private var area:Sprite;
+		private var txt:TextField;
 		
 		private var func1:Function, func2:Function;
 		
@@ -20,8 +24,8 @@ package victor.comp
 			this.func1 = func1;
 			this.func2 = func2;
 			
-			x = 378;
-			y = 128;
+			x = 358;
+			y = 120;
 			
 			skin = new ui_Skin_CompleteOver();
 			addChild( skin );
@@ -29,13 +33,19 @@ package victor.comp
 			btnCompare = skin.btnCompare;
 			btnUpload = skin.btnUpload;
 			area = skin.area;
+			txt = skin.txt;
 			
 			addListener();
 		}
 		
+		public function setLabel( year:int = 2010 ):void
+		{
+			txt.text = year + "年的我们";
+		}
+		
 		public function setBitmap( bitmap:Bitmap ):void
 		{
-			area.removeChildren();
+			DisplayUtil.removeAll( area );
 			area.addChild( bitmap );
 		}
 		

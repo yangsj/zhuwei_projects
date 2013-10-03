@@ -5,6 +5,8 @@ package victor.comp
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
 	
+	import victor.DisplayUtil;
+	
 	public class UploadNowPicComp extends Sprite
 	{
 		private var skin:ui_Skin_StartCompareCom;
@@ -31,7 +33,7 @@ package victor.comp
 		
 		public function setBitmap( bitmap:Bitmap ):void
 		{
-			area.removeChildren();
+			DisplayUtil.removeAll( area );
 			area.addChild( bitmap );
 		}
 		
