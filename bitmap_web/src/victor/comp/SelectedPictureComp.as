@@ -7,7 +7,6 @@ package victor.comp
 	import flash.events.MouseEvent;
 	import flash.net.FileFilter;
 	import flash.net.FileReference;
-	import flash.utils.ByteArray;
 	
 	import victor.Global;
 	import victor.event.AppEvent;
@@ -32,18 +31,33 @@ package victor.comp
 			_btnSlected.addEventListener(MouseEvent.CLICK, onClickhandler );
 		}
 		
-		protected function onClickhandler(event:MouseEvent):void
+		public function selectedImage():void
 		{
 			_fileReference = new FileReference();
 			_fileReference.addEventListener(Event.COMPLETE, completeHandler );
 			_fileReference.addEventListener(Event.SELECT, selectedHandler );
+			_fileReference.addEventListener(Event.CANCEL, cancelHandler );
 			_fileReference.browse([getImageTypeFilter]);
+		}
+		
+		protected function cancelHandler(event:Event):void
+		{
+			_fileReference.removeEventListener(Event.COMPLETE, completeHandler );
+			_fileReference.removeEventListener(Event.SELECT, selectedHandler );
+			_fileReference.removeEventListener(Event.CANCEL, cancelHandler );
+		}
+		
+		protected function onClickhandler(event:MouseEvent):void
+		{
+			selectedImage();
 		}
 		
 		protected function completeHandler(event:Event):void
 		{
+			cancelHandler( null );
+			
 			var loader:Loader = new Loader();
-			loader.loadBytes(event.target.data);
+			loader.loadBytes(_fileReference.data);
 			Global.eventDispatcher.dispatchEvent( new AppEvent( AppEvent.SELECTED_LOAD_COMPLETE, loader ));
 		}
 		

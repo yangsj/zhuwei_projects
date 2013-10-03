@@ -6,7 +6,7 @@ package victor.event
 	{
 		private var _data:Object;
 		
-		public function AppEvent(type:String, data:Object, bubbles:Boolean=false, cancelable:Boolean=false)
+		public function AppEvent(type:String, data:Object = null, bubbles:Boolean=false, cancelable:Boolean=false)
 		{
 			super(type, bubbles, cancelable);
 			_data = data;
@@ -22,6 +22,25 @@ package victor.event
 		 */
 		public static const EDIT_COMPLETE:String = "edit_complete";
 		
+		/**
+		 * 重新选择
+		 */
+		public static const SELECTED_AGAIN:String = "selected_again";
+		
+		/**
+		 *  确认提交
+		 */
+		public static const CONFIRM_COMMIT:String = "confirm_commit";
+		
+		/**
+		 * 拍照
+		 */
+		public static const TAKE_A_PHOTO:String = "take_a_photo";
+		
+		/**
+		 * 开发摄像头
+		 */
+		public static const OPEN_CAMERA:String = "open_camera";
 		
 		
 		
