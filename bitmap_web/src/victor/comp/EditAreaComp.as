@@ -47,8 +47,8 @@ package victor.comp
 		
 		public function EditAreaComp()
 		{
-			x = 358;
-			y = 120;
+			x = 325;
+			y = 100;
 			
 			_skin = new ui_Skin_EditPictureArea();
 			addChild( _skin );
@@ -256,8 +256,8 @@ package victor.comp
 		{
 			try
 			{
-				var bitData:BitmapData = new BitmapData( _area.width, _area.height, true, 0 );
-				bitData.draw( _area );
+				var bitData:BitmapData = new BitmapData( 500, 375, false, 0 );
+//				bitData.draw( _area );
 				return bitData;
 			}
 			catch (e : * )

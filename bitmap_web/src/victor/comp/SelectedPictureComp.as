@@ -20,8 +20,8 @@ package victor.comp
 		
 		public function SelectedPictureComp()
 		{
-			x = 359;
-			y = 145;
+			x = 325;
+			y = 100;
 			
 			_skin = new ui_Skin_SelectedBitmapComp();
 			addChild( _skin );

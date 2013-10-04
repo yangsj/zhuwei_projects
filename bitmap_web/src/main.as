@@ -2,7 +2,6 @@ package
 {
 	import flash.display.Sprite;
 	import flash.events.Event;
-	import flash.system.Security;
 	
 	import victor.Main;
 	

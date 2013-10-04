@@ -24,8 +24,8 @@ package victor.comp
 			this.func1 = func1;
 			this.func2 = func2;
 			
-			x = 358;
-			y = 120;
+			x = 325;
+			y = 100;
 			
 			skin = new ui_Skin_CompleteOver();
 			addChild( skin );

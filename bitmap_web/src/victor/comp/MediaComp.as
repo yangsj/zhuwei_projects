@@ -35,6 +35,7 @@ package victor.comp
 		private var _btnAgainLoad:SimpleButton;
 		private var _area:Sprite;
 		private var _tempSprite:Sprite;
+		private var _btnCompare:SimpleButton;
 		
 		
 		private var _endRotation:Number = 0;
@@ -44,6 +45,9 @@ package victor.comp
 		
 		public function MediaComp( openLocal:Function )
 		{
+			x = 100;
+			y = 100;
+			
 			this.openLocal = openLocal;
 			
 			skin = new ui_Skin_OpenCamera();
@@ -59,6 +63,7 @@ package victor.comp
 			_btnRotateRight = skin.btnRotateRight;
 			_btnAgainPhoto = skin.btnAgainPhoto;
 			_btnAgainLoad = skin.btnAgainLoad;
+			_btnCompare = skin.btnCompare;
 			
 			_newPic.buttonMode = true;
 			
@@ -139,6 +144,8 @@ package victor.comp
 		public function setOldBitmap( bitmap:Bitmap ):void
 		{
 			DisplayUtil.removeAll( _oldPic );
+			bitmap.width = bitmap.width > 465 ? 465 : bitmap.width;
+			bitmap.height = bitmap.height > 345 ? 345 : bitmap.height;
 			_oldPic.addChild( bitmap );
 		}
 		
@@ -153,6 +160,7 @@ package victor.comp
 			_btnRotateRight.visible = true;
 			_btnAgainPhoto.visible = true;
 			_btnAgainLoad.visible = true;
+			_btnCompare.visible = true;
 			
 			_btnPhoto.visible = false;
 			
@@ -180,6 +188,7 @@ package victor.comp
 			_btnRotateRight.visible = true;
 			_btnAgainPhoto.visible = true;
 			_btnAgainLoad.visible = true;
+			_btnCompare.visible = true;
 			
 			_btnPhoto.visible = false;
 			
@@ -203,6 +212,7 @@ package victor.comp
 			_btnRotateRight.visible = false;
 			_btnAgainPhoto.visible = false;
 			_btnAgainLoad.visible = false;
+			_btnCompare.visible = false;
 			
 			_btnPhoto.visible = true;
 			

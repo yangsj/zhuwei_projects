@@ -14,7 +14,7 @@ package victor
 	
 	public class Main extends Sprite
 	{
-		private var _imgBg:Sprite;
+		
 		private var _container:Sprite;
 		
 		private var _selectdComp:SelectedPictureComp;
@@ -25,9 +25,6 @@ package victor
 		
 		public function Main()
 		{
-			_imgBg = new ui_Skin_Background();
-			addChild( _imgBg );
-			
 			_container = new Sprite();
 			addChild( _container );
 			
@@ -52,6 +49,7 @@ package victor
 			DisplayUtil.removeAll( _container );
 			_container.addChild( _uploadNowPicComp );
 			_uploadNowPicComp.setBitmap( new Bitmap(_editAreaComp.bitmapData, "auto", true) );
+			_uploadNowPicComp.setLabel( _editAreaComp.currentYear );
 		}
 		
 		private function oepnCamera():void
