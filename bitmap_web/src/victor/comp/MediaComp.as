@@ -19,7 +19,7 @@ package victor.comp
 	public class MediaComp extends Sprite
 	{
 		private const camera:Camera = Camera.getCamera();
-		private const DISPLAY_AREA:Rectangle = new Rectangle( 0, 0, 515, 380 );
+		private const DISPLAY_AREA:Rectangle = new Rectangle( 0, 0, 465, 345 );
 		
 		private var skin:ui_Skin_OpenCamera;
 		
@@ -42,13 +42,15 @@ package victor.comp
 		private var _endScale:Number = 1;
 		
 		private var openLocal:Function;
+		private var compareFunc:Function;
 		
-		public function MediaComp( openLocal:Function )
+		public function MediaComp( openLocal:Function, compareFunc:Function )
 		{
 			x = 100;
 			y = 100;
 			
 			this.openLocal = openLocal;
+			this.compareFunc = compareFunc;
 			
 			skin = new ui_Skin_OpenCamera();
 			addChild( skin );
@@ -80,8 +82,14 @@ package victor.comp
 			_btnRotateLeft.addEventListener(MouseEvent.CLICK, onRotateLeftHandler );
 			_btnRotateRight.addEventListener(MouseEvent.CLICK, onRotateRightHandler );
 			_newPic.addEventListener(MouseEvent.MOUSE_DOWN, mouseHandler );
+			_btnCompare.addEventListener(MouseEvent.CLICK, onCompareHandler );
 			
 			addEventListener( Event.ENTER_FRAME, enterFrameHandler );
+		}
+		
+		protected function onCompareHandler(event:MouseEvent):void
+		{
+			
 		}
 		
 		protected function mouseHandler(event:MouseEvent):void
@@ -144,8 +152,8 @@ package victor.comp
 		public function setOldBitmap( bitmap:Bitmap ):void
 		{
 			DisplayUtil.removeAll( _oldPic );
-			bitmap.width = bitmap.width > 465 ? 465 : bitmap.width;
-			bitmap.height = bitmap.height > 345 ? 345 : bitmap.height;
+			bitmap.width = bitmap.width > DISPLAY_AREA.width ? DISPLAY_AREA.width : bitmap.width;
+			bitmap.height = bitmap.height > DISPLAY_AREA.height ? DISPLAY_AREA.height : bitmap.height;
 			_oldPic.addChild( bitmap );
 		}
 		
@@ -221,7 +229,7 @@ package victor.comp
 			if (camera != null)
 			{
 				camera.addEventListener(ActivityEvent.ACTIVITY, activityHandler);
-				video ||= new Video(515, 380);
+				video ||= new Video( DISPLAY_AREA.width, DISPLAY_AREA.height );
 				video.attachCamera(camera);
 				DisplayUtil.removeAll( _tempSprite );
 				_tempSprite.addChild(video);
@@ -245,7 +253,7 @@ package victor.comp
 		
 		public function get bitmapData():BitmapData
 		{
-			var bitmapdata:BitmapData = new BitmapData(_area.width, _area.height, true, 0 );
+			var bitmapdata:BitmapData = new BitmapData(DISPLAY_AREA.width, DISPLAY_AREA.height, true, 0 );
 			bitmapdata.draw( _area );
 			return bitmapdata;
 		}

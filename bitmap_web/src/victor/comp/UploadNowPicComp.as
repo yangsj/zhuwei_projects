@@ -4,12 +4,15 @@ package victor.comp
 	import flash.display.SimpleButton;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
+	import flash.geom.Rectangle;
 	import flash.text.TextField;
 	
 	import victor.DisplayUtil;
 	
 	public class UploadNowPicComp extends Sprite
 	{
+		private const DISPLAY_AREA:Rectangle = new Rectangle( 0, 0, 465, 345 );
+		
 		private var skin:ui_Skin_StartCompareCom;
 		private var btnCamera:SimpleButton;
 		private var btnLocal:SimpleButton;
@@ -45,8 +48,9 @@ package victor.comp
 		public function setBitmap( bitmap:Bitmap ):void
 		{
 			DisplayUtil.removeAll( area );
-			bitmap.width = bitmap.width > 465 ? 465 : bitmap.width;
-			bitmap.height = bitmap.height > 345 ? 345 : bitmap.height;
+			trace( bitmap.width, bitmap.height );
+			bitmap.width = Math.min( DISPLAY_AREA.width, bitmap.width );
+			bitmap.height = Math.min( DISPLAY_AREA.height, bitmap.height );
 			area.addChild( bitmap );
 		}
 		

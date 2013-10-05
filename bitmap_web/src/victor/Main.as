@@ -1,9 +1,13 @@
 package victor
 {
+	import com.adobe.images.PNGEncoder;
+	
 	import flash.display.Bitmap;
+	import flash.display.BitmapData;
 	import flash.display.Loader;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.utils.ByteArray;
 	
 	import victor.comp.CompleteEditComp;
 	import victor.comp.EditAreaComp;
@@ -30,7 +34,7 @@ package victor
 			
 			_selectdComp = new SelectedPictureComp();
 			_editAreaComp = new EditAreaComp();
-			_mediaComp = new MediaComp( _selectdComp.selectedImage );
+			_mediaComp = new MediaComp( _selectdComp.selectedImage, compareMediaCompFunc );
 			_completeEditComp = new CompleteEditComp(completeEditCompFunc1, completeEditCompFunc2);
 			_uploadNowPicComp = new UploadNowPicComp( oepnCamera, _selectdComp.selectedImage );
 			
@@ -39,13 +43,27 @@ package victor
 			addlistener();
 		}
 		
+		private function compareMediaCompFunc():void
+		{
+			// 查看对比
+			// 调用php页面，sharetosns2.php 参数为pic1、pic2，year同时传递2个参数
+			// 1），上传的图片地址 pic1=/upload/1.jpg | Global.commitFirstPicUrl
+			// 2），上传的图片地址 pic2=/upload/2.jpg | Global.commitSecondPicUrl
+			// 3）.选择的年份 year=2012
+			
+		}
+		
 		private function completeEditCompFunc1():void
 		{
-			
+			// 立刻发现面劲轮廓
+			// 调用php页面，sharetosns1.php 参数为pic1、year同时传递2个参数，
+			// 1），上传的图片地址 pic1=/upload/1.jpg  | Global.commitFirstPicUrl
+			// 2）.选择的年份 year=2012
 		}
 		
 		private function completeEditCompFunc2():void
 		{
+			// 上传近照，挑战新旧对比自己
 			DisplayUtil.removeAll( _container );
 			_container.addChild( _uploadNowPicComp );
 			_uploadNowPicComp.setBitmap( new Bitmap(_editAreaComp.bitmapData, "auto", true) );
@@ -54,6 +72,7 @@ package victor
 		
 		private function oepnCamera():void
 		{
+			// 开启摄像头
 			DisplayUtil.removeAll( _container );
 			_container.addChild( _mediaComp );
 			_mediaComp.setOldBitmap( new Bitmap(_editAreaComp.bitmapData, "auto", true) );
@@ -77,10 +96,14 @@ package victor
 		
 		protected function confirmCommitHandler(event:Event):void
 		{
+			var bitmapData:BitmapData = _editAreaComp.bitmapData;
 			DisplayUtil.removeAll( _container );
 			_container.addChild(_completeEditComp);
-			_completeEditComp.setBitmap( new Bitmap(_editAreaComp.bitmapData, "auto", true) );
+			_completeEditComp.setBitmap( new Bitmap(bitmapData, "auto", true) );
 			_completeEditComp.setLabel( _editAreaComp.currentYear );
+			
+			var byte:ByteArray = PNGEncoder.encode( bitmapData );
+			ExternalManager.confirmFirstCommit( byte, _editAreaComp.currentYear );
 		}
 		
 		protected function selectedAgainHandler(event:Event):void

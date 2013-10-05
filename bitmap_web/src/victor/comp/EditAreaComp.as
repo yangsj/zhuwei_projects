@@ -35,7 +35,7 @@ package victor.comp
 		private var _endRotation:Number = 0;
 		private var _endScale:Number = 1;
 		
-		private const DISPLAY_AREA:Rectangle = new Rectangle( 0, 0, 515, 380 );
+		private const DISPLAY_AREA:Rectangle = new Rectangle( 0, 0, 500, 375 );
 		private const MIN_YEAR:int = 1960;
 		private const MAX_YEAR:int = 2013;
 		
@@ -254,16 +254,15 @@ package victor.comp
 		
 		public function get bitmapData():BitmapData
 		{
+			var bitmapdata:BitmapData = new BitmapData(DISPLAY_AREA.width, DISPLAY_AREA.height, true, 0 );
 			try
 			{
-				var bitData:BitmapData = new BitmapData( 500, 375, false, 0 );
-//				bitData.draw( _area );
-				return bitData;
+				bitmapdata.draw( _area );
 			}
-			catch (e : * )
+			catch( e: * )
 			{
 			}
-			return new BitmapData( 100, 100, true, 0);
+			return bitmapdata;
 		}
 		
 		
