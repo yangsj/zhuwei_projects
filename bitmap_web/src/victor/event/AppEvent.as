@@ -32,16 +32,6 @@ package victor.event
 		 */
 		public static const CONFIRM_COMMIT:String = "confirm_commit";
 		
-		/**
-		 * 拍照
-		 */
-		public static const TAKE_A_PHOTO:String = "take_a_photo";
-		
-		/**
-		 * 开发摄像头
-		 */
-		public static const OPEN_CAMERA:String = "open_camera";
-		
 		
 		
 		public function get data():Object

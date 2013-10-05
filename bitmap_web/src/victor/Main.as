@@ -7,6 +7,8 @@ package victor
 	import flash.display.Loader;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.events.IOErrorEvent;
+	import flash.net.URLRequest;
 	import flash.utils.ByteArray;
 	
 	import victor.comp.CompleteEditComp;
@@ -34,16 +36,36 @@ package victor
 			
 			_selectdComp = new SelectedPictureComp();
 			_editAreaComp = new EditAreaComp();
-			_mediaComp = new MediaComp( _selectdComp.selectedImage, compareMediaCompFunc );
+			_mediaComp = new MediaComp( compareMediaCompFunc1, compareMediaCompFunc2 );
 			_completeEditComp = new CompleteEditComp(completeEditCompFunc1, completeEditCompFunc2);
 			_uploadNowPicComp = new UploadNowPicComp( oepnCamera, _selectdComp.selectedImage );
 			
-			_container.addChild( _selectdComp );
-			
 			addlistener();
+			
+			startApp();
 		}
 		
-		private function compareMediaCompFunc():void
+		private function startApp():void
+		{
+			if ( Global.isFronSNS )
+			{
+				DisplayUtil.removeAll( _container );
+				_container.addChild(_editAreaComp);
+				_editAreaComp.loadImageForSNS( Global.snsUrl );
+			}
+			else
+			{
+				_container.addChild( _selectdComp );
+			}
+		}
+		
+		
+		private function compareMediaCompFunc1():void
+		{
+			completeEditCompFunc2();
+		}
+		
+		private function compareMediaCompFunc2():void
 		{
 			// 查看对比
 			// 调用php页面，sharetosns2.php 参数为pic1、pic2，year同时传递2个参数
@@ -66,7 +88,7 @@ package victor
 			// 上传近照，挑战新旧对比自己
 			DisplayUtil.removeAll( _container );
 			_container.addChild( _uploadNowPicComp );
-			_uploadNowPicComp.setBitmap( new Bitmap(_editAreaComp.bitmapData, "auto", true) );
+			_uploadNowPicComp.loadImage( Global.commitFirstPicUrl );
 			_uploadNowPicComp.setLabel( _editAreaComp.currentYear );
 		}
 		
@@ -75,7 +97,7 @@ package victor
 			// 开启摄像头
 			DisplayUtil.removeAll( _container );
 			_container.addChild( _mediaComp );
-			_mediaComp.setOldBitmap( new Bitmap(_editAreaComp.bitmapData, "auto", true) );
+			_mediaComp.loadOldImage( Global.commitFirstPicUrl );
 			_mediaComp.startMedia();
 		}
 		
@@ -84,26 +106,13 @@ package victor
 			Global.eventDispatcher.addEventListener(AppEvent.SELECTED_LOAD_COMPLETE, selectedLoadCompleteHandler );
 			Global.eventDispatcher.addEventListener(AppEvent.SELECTED_AGAIN, selectedAgainHandler );
 			Global.eventDispatcher.addEventListener(AppEvent.CONFIRM_COMMIT, confirmCommitHandler );
-			Global.eventDispatcher.addEventListener(AppEvent.TAKE_A_PHOTO, takeAPhotoHandler );
-		}
-		
-		protected function takeAPhotoHandler(event:Event):void
-		{
-			DisplayUtil.removeAll( _container );
-			_container.addChild(_editAreaComp);
-			_editAreaComp.setLoader( new Bitmap(_mediaComp.bitmapData, "auto", true ));
 		}
 		
 		protected function confirmCommitHandler(event:Event):void
 		{
-			var bitmapData:BitmapData = _editAreaComp.bitmapData;
 			DisplayUtil.removeAll( _container );
 			_container.addChild(_completeEditComp);
-			_completeEditComp.setBitmap( new Bitmap(bitmapData, "auto", true) );
-			_completeEditComp.setLabel( _editAreaComp.currentYear );
-			
-			var byte:ByteArray = PNGEncoder.encode( bitmapData );
-			ExternalManager.confirmFirstCommit( byte, _editAreaComp.currentYear );
+			_completeEditComp.loadImage( Global.commitFirstPicUrl );
 		}
 		
 		protected function selectedAgainHandler(event:Event):void
@@ -118,7 +127,7 @@ package victor
 			{
 				DisplayUtil.removeAll( _container );
 				_container.addChild(_mediaComp);
-				_mediaComp.setOldBitmap(new Bitmap(_editAreaComp.bitmapData, "auto", true) );
+				_mediaComp.loadOldImage( Global.commitFirstPicUrl );
 				_mediaComp.setNewLoader( loader );
 			}
 			else if ( _mediaComp.parent )

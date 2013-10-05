@@ -1,5 +1,6 @@
 package victor.comp
 {
+	import com.adobe.images.JPGEncoder;
 	import com.greensock.TweenMax;
 	import com.greensock.easing.Linear;
 	
@@ -12,9 +13,12 @@ package victor.comp
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
 	import flash.text.TextField;
+	import flash.utils.ByteArray;
 	
 	import victor.DisplayUtil;
 	import victor.Global;
+	import victor.LoadImage;
+	import victor.SaveImage;
 	import victor.event.AppEvent;
 	
 	public class EditAreaComp extends Sprite
@@ -44,6 +48,7 @@ package victor.comp
 		private var lastYearBitmap:Bitmap;
 		private var lastYear:int = 0;
 		private var tempYearCon:Sprite;
+		private var downMouseX:Number;
 		
 		public function EditAreaComp()
 		{
@@ -68,8 +73,10 @@ package victor.comp
 			tempYearCon = new Sprite();
 			tempYearCon.x = _txtYear.x;
 			tempYearCon.y = _txtYear.y + 3;
-			_txtYear.parent.addChild( tempYearCon );
 			tempYearCon.scrollRect = new Rectangle(0, 0, _txtYear.width, _txtYear.height );
+			tempYearCon.buttonMode = true;
+			tempYearCon.mouseChildren = false;
+			_txtYear.parent.addChild( tempYearCon );
 			
 			_container.buttonMode = true;
 			_txtYear.mouseEnabled = false;
@@ -79,6 +86,11 @@ package victor.comp
 			setYear();
 			
 			addListenr();
+		}
+		
+		public function loadImageForSNS(url:String):void
+		{
+			new LoadImage( url, setLoader );
 		}
 		
 		public function setLoader( display:DisplayObject ):void
@@ -113,6 +125,27 @@ package victor.comp
 			_container.addEventListener(MouseEvent.MOUSE_DOWN, mouseHandler );
 			_btnPrev.addEventListener(MouseEvent.CLICK, btnPrevHandler );
 			_btnNext.addEventListener(MouseEvent.CLICK, btnNextHandler );
+			
+			tempYearCon.addEventListener(MouseEvent.MOUSE_DOWN, yearConMouseDownHandler );
+		}
+		
+		protected function yearConMouseDownHandler(event:MouseEvent):void
+		{
+			var type:String = event.type;
+			if ( type == MouseEvent.MOUSE_DOWN )
+			{
+				appStage.addEventListener(MouseEvent.MOUSE_UP, yearConMouseDownHandler );
+				downMouseX = appStage.mouseX;
+			}
+			else if ( type == MouseEvent.MOUSE_UP )
+			{
+				var dist:Number = appStage.mouseX - downMouseX;
+				if ( dist > 0 )
+					btnPrevHandler( null );
+				else if ( dist < 0 )
+					btnNextHandler( null );
+				appStage.removeEventListener(MouseEvent.MOUSE_UP, yearConMouseDownHandler );
+			}
 		}
 		
 		protected function btnPrevHandler(event:MouseEvent):void
@@ -202,6 +235,12 @@ package victor.comp
 		
 		protected function onCommitHandler(event:MouseEvent):void
 		{
+			new SaveImage( imgByte, loadComplete );
+		}
+		
+		protected function loadComplete( picUrl:String ):void
+		{
+			Global.commitFirstPicUrl = picUrl;
 			Global.eventDispatcher.dispatchEvent( new AppEvent( AppEvent.CONFIRM_COMMIT ));
 		}
 		
@@ -252,7 +291,7 @@ package victor.comp
 			TweenMax.to( _container, 0.4, {rotation: _endRotation });
 		}
 		
-		public function get bitmapData():BitmapData
+		private function get bitmapData():BitmapData
 		{
 			var bitmapdata:BitmapData = new BitmapData(DISPLAY_AREA.width, DISPLAY_AREA.height, true, 0 );
 			try
@@ -265,6 +304,11 @@ package victor.comp
 			return bitmapdata;
 		}
 		
+		private function get imgByte():ByteArray
+		{
+			var jpg:JPGEncoder = new JPGEncoder(80);
+			return jpg.encode( bitmapData );
+		}
 		
 	}
 }

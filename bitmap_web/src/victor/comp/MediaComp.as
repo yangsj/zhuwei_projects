@@ -1,5 +1,6 @@
 package victor.comp
 {
+	import com.adobe.images.JPGEncoder;
 	import com.greensock.TweenMax;
 	
 	import flash.display.Bitmap;
@@ -13,8 +14,12 @@ package victor.comp
 	import flash.geom.Rectangle;
 	import flash.media.Camera;
 	import flash.media.Video;
+	import flash.utils.ByteArray;
 	
 	import victor.DisplayUtil;
+	import victor.Global;
+	import victor.LoadImage;
+	import victor.SaveImage;
 	
 	public class MediaComp extends Sprite
 	{
@@ -89,7 +94,13 @@ package victor.comp
 		
 		protected function onCompareHandler(event:MouseEvent):void
 		{
-			
+			new SaveImage( imgByte, callBack );
+			function callBack( picUrl:String ):void
+			{
+				Global.commitSecondPicUrl = picUrl;
+				if ( compareFunc )
+					compareFunc();
+			}
 		}
 		
 		protected function mouseHandler(event:MouseEvent):void
@@ -141,12 +152,18 @@ package victor.comp
 		
 		protected function btnAgainLoadHandler(event:MouseEvent):void
 		{
+			closeCamera();
 			openLocal();
 		}
 		
 		protected function onClickHandler(event:MouseEvent):void
 		{
 			setNewBitmap(new Bitmap( bitmapData, "auto", true ) );
+		}
+		
+		public function loadOldImage( url:String ):void
+		{
+			new LoadImage( url, setOldBitmap );
 		}
 		
 		public function setOldBitmap( bitmap:Bitmap ):void
@@ -175,12 +192,7 @@ package victor.comp
 			_btnAgainLoad.visible = true;
 			_btnAgainPhoto.visible = false;
 			
-			if ( video )
-			{
-				video.attachCamera(null);
-				video.clear();
-			}
-			
+			closeCamera();
 			huanyuan();
 		}
 		
@@ -203,12 +215,7 @@ package victor.comp
 			_btnAgainLoad.visible = false;
 			_btnAgainPhoto.visible = true;
 			
-			if ( video )
-			{
-				video.attachCamera(null);
-				video.clear();
-			}
-			
+			closeCamera();
 			huanyuan();
 		}
 		
@@ -228,15 +235,30 @@ package victor.comp
 			
 			if (camera != null)
 			{
-				camera.addEventListener(ActivityEvent.ACTIVITY, activityHandler);
-				video ||= new Video( DISPLAY_AREA.width, DISPLAY_AREA.height );
-				video.attachCamera(camera);
-				DisplayUtil.removeAll( _tempSprite );
-				_tempSprite.addChild(video);
+				openCamera();
 			}
 			else 
 			{
 				trace("You need a camera.");
+			}
+		}
+		
+		private function openCamera():void
+		{
+			camera.addEventListener(ActivityEvent.ACTIVITY, activityHandler);
+			video ||= new Video( DISPLAY_AREA.width, DISPLAY_AREA.height );
+			video.attachCamera(camera);
+			DisplayUtil.removeAll( _tempSprite );
+			_tempSprite.addChild(video);
+		}
+		
+		private function closeCamera():void
+		{
+			
+			if ( video )
+			{
+				video.attachCamera(null);
+				video.clear();
 			}
 		}
 		
@@ -251,11 +273,23 @@ package victor.comp
 			_newPic.y = DISPLAY_AREA.y + (DISPLAY_AREA.height>> 1);
 		}
 		
-		public function get bitmapData():BitmapData
+		private function get bitmapData():BitmapData
 		{
 			var bitmapdata:BitmapData = new BitmapData(DISPLAY_AREA.width, DISPLAY_AREA.height, true, 0 );
-			bitmapdata.draw( _area );
+			try
+			{
+				bitmapdata.draw( _area );
+			}
+			catch( e: * )
+			{
+			}
 			return bitmapdata;
+		}
+		
+		private function get imgByte():ByteArray
+		{
+			var jpg:JPGEncoder = new JPGEncoder(80);
+			return jpg.encode( bitmapData );
 		}
 		
 		private function activityHandler(event:ActivityEvent):void 

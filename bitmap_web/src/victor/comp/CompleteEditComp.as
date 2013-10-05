@@ -7,6 +7,7 @@ package victor.comp
 	import flash.text.TextField;
 	
 	import victor.DisplayUtil;
+	import victor.LoadImage;
 	
 	public class CompleteEditComp extends Sprite
 	{
@@ -41,6 +42,11 @@ package victor.comp
 		public function setLabel( year:int = 2010 ):void
 		{
 			txt.text = year + "年的我们";
+		}
+		
+		public function loadImage(url:String):void
+		{
+			new LoadImage( url, setBitmap );
 		}
 		
 		public function setBitmap( bitmap:Bitmap ):void

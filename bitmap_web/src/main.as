@@ -3,9 +3,11 @@ package
 	import flash.display.Sprite;
 	import flash.events.Event;
 	
+	import victor.Global;
 	import victor.Main;
 	
-	[SWF(width="1200", height="750", frameRate="60", backgroundColor="0")]
+//	[SWF(width="1200", height="700", frameRate="60", backgroundColor="0xFFFFFF")]
+	[SWF(width="1200", height="700", frameRate="60", backgroundColor="0")]
 	public class main extends Sprite
 	{
 		public function main()
@@ -22,6 +24,18 @@ package
 			
 			appStage = stage;
 			//appStage.alpha = 0;
+			
+			var parameters:Object = stage.loaderInfo.parameters;
+			if ( parameters.hasOwnProperty( "pic" ) && parameters["pic"] )
+			{
+				Global.isFronSNS = true;
+				Global.snsUrl = parameters["pic"];
+			}
+			
+			// test
+//			Global.isFronSNS = true;
+//			Global.snsUrl = "C:\\Users\\Administrator\\Desktop\\6862276_134908305332_2.jpg";
+//			Global.snsUrl = "http://img.adbox.sina.com.cn/pic/21716.jpg";
 			
 			addChild( new Main());
 		}
