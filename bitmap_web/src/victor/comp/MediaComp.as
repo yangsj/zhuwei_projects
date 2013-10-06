@@ -5,7 +5,7 @@ package victor.comp
 	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
-	import flash.display.Loader;
+	import flash.display.DisplayObject;
 	import flash.display.SimpleButton;
 	import flash.display.Sprite;
 	import flash.events.ActivityEvent;
@@ -14,8 +14,10 @@ package victor.comp
 	import flash.geom.Rectangle;
 	import flash.media.Camera;
 	import flash.media.Video;
+	import flash.text.TextField;
 	import flash.utils.ByteArray;
 	
+	import victor.AppMouse;
 	import victor.DisplayUtil;
 	import victor.Global;
 	import victor.LoadImage;
@@ -41,6 +43,7 @@ package victor.comp
 		private var _area:Sprite;
 		private var _tempSprite:Sprite;
 		private var _btnCompare:SimpleButton;
+		private var _txtYear:TextField;
 		
 		
 		private var _endRotation:Number = 0;
@@ -62,6 +65,7 @@ package victor.comp
 			
 			_oldPic = skin.oldPic;
 			_area = skin.area;
+			_area.scrollRect = DISPLAY_AREA;
 			_newPic = _area.getChildByName("pic") as Sprite;
 			_btnPhoto = skin.btnPhoto;
 			_btnZoonIn = skin.btnZoonIn;
@@ -71,8 +75,7 @@ package victor.comp
 			_btnAgainPhoto = skin.btnAgainPhoto;
 			_btnAgainLoad = skin.btnAgainLoad;
 			_btnCompare = skin.btnCompare;
-			
-			_newPic.buttonMode = true;
+			_txtYear = skin.txt;
 			
 			DisplayUtil.removeAll( _newPic );
 			_tempSprite = new Sprite();
@@ -94,9 +97,13 @@ package victor.comp
 		
 		protected function onCompareHandler(event:MouseEvent):void
 		{
+			_btnCompare.mouseEnabled = false;
+			AppMouse.show();
 			new SaveImage( imgByte, callBack );
 			function callBack( picUrl:String ):void
 			{
+				_btnCompare.mouseEnabled = true;
+				AppMouse.hide();
 				Global.commitSecondPicUrl = picUrl;
 				if ( compareFunc )
 					compareFunc();
@@ -161,12 +168,19 @@ package victor.comp
 			setNewBitmap(new Bitmap( bitmapData, "auto", true ) );
 		}
 		
+		public function setYearInfo( year:int ):void
+		{
+//			_txtYear.text = year + "";
+			_txtYear.embedFonts = true;
+			_txtYear.text = year + "年的我们";
+		}
+		
 		public function loadOldImage( url:String ):void
 		{
 			new LoadImage( url, setOldBitmap );
 		}
 		
-		public function setOldBitmap( bitmap:Bitmap ):void
+		public function setOldBitmap( bitmap:DisplayObject ):void
 		{
 			DisplayUtil.removeAll( _oldPic );
 			bitmap.width = bitmap.width > DISPLAY_AREA.width ? DISPLAY_AREA.width : bitmap.width;
@@ -174,33 +188,10 @@ package victor.comp
 			_oldPic.addChild( bitmap );
 		}
 		
-		public function setNewLoader( loader:Loader ):void
-		{
-			DisplayUtil.removeAll( _tempSprite );
-			_tempSprite.addChild( loader );
-			
-			_btnZoonIn.visible = true;
-			_btnZoonOut.visible = true;
-			_btnRotateLeft.visible = true;
-			_btnRotateRight.visible = true;
-			_btnAgainPhoto.visible = true;
-			_btnAgainLoad.visible = true;
-			_btnCompare.visible = true;
-			
-			_btnPhoto.visible = false;
-			
-			_btnAgainLoad.visible = true;
-			_btnAgainPhoto.visible = false;
-			
-			closeCamera();
-			huanyuan();
-		}
-		
-		public function setNewBitmap( bitmap:Bitmap ):void
+		public function setNewBitmap( bitmap:DisplayObject ):void
 		{
 			DisplayUtil.removeAll( _tempSprite );
 			_tempSprite.addChild( bitmap );
-			bitmap.scaleY = bitmap.scaleX = 1 / _area.scaleX;
 			
 			_btnZoonIn.visible = true;
 			_btnZoonOut.visible = true;
@@ -215,8 +206,13 @@ package victor.comp
 			_btnAgainLoad.visible = false;
 			_btnAgainPhoto.visible = true;
 			
+			_area.mouseChildren = true;
+			_newPic.buttonMode = true;
+			
 			closeCamera();
 			huanyuan();
+			
+			
 		}
 		
 		public function startMedia():void
@@ -230,6 +226,9 @@ package victor.comp
 			_btnCompare.visible = false;
 			
 			_btnPhoto.visible = true;
+			
+			_area.mouseChildren = false;
+			_newPic.buttonMode = false;
 			
 			huanyuan();
 			
@@ -245,10 +244,16 @@ package victor.comp
 		
 		private function openCamera():void
 		{
+			var scale:Number = 3.2;
 			camera.addEventListener(ActivityEvent.ACTIVITY, activityHandler);
-			video ||= new Video( DISPLAY_AREA.width, DISPLAY_AREA.height );
+			if ( video == null )
+			{
+				camera.setMode( camera.width * scale, camera.height * scale, 60 );
+				video ||= new Video( camera.width, camera.height );
+			}
 			video.attachCamera(camera);
 			DisplayUtil.removeAll( _tempSprite );
+			_tempSprite.scaleX = _tempSprite.scaleY = 1;
 			_tempSprite.addChild(video);
 		}
 		

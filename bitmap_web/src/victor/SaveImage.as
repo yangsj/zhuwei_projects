@@ -1,6 +1,7 @@
 package victor
 {
 	import flash.events.Event;
+	import flash.external.ExternalInterface;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	import flash.net.URLRequestMethod;
@@ -15,7 +16,7 @@ package victor
 		{
 			this.loadedCompleted = loadedCompleted;
 			
-			var request:URLRequest = new URLRequest("http://www.aqmtl.com/cam/saveimg.php");
+			var request:URLRequest = new URLRequest("saveimg.php");//http://www.aqmtl.com/cam/
 			request.method = URLRequestMethod.POST;
 			request.data = imgByte;
 			
@@ -28,8 +29,18 @@ package victor
 		protected function loadCompleteHandler(event:Event):void
 		{
 			loader.removeEventListener(Event.COMPLETE, loadCompleteHandler );
-			if ( loadedCompleted )
-				loadedCompleted( loader.data as String );
+			var url:String = loader.data as String;
+			if ( url.indexOf("jpg") == -1 && (url.length == 5 || (url == "error" || url == "Error" )))
+			{
+				if ( ExternalInterface.available )
+				{
+					ExternalInterface.call("uploaderror");
+				}
+			}
+			else if ( loadedCompleted )
+			{
+				loadedCompleted( url );
+			}
 			
 			loader = null;
 			loadedCompleted = null;

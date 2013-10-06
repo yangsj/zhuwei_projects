@@ -7,6 +7,7 @@ package victor.comp
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
+	import flash.display.MovieClip;
 	import flash.display.SimpleButton;
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -15,6 +16,7 @@ package victor.comp
 	import flash.text.TextField;
 	import flash.utils.ByteArray;
 	
+	import victor.AppMouse;
 	import victor.DisplayUtil;
 	import victor.Global;
 	import victor.LoadImage;
@@ -24,6 +26,7 @@ package victor.comp
 	public class EditAreaComp extends Sprite
 	{
 		private var _skin:ui_Skin_EditPictureArea;
+		private var _mcYear:MovieClip;
 		private var _btnZoonIn:SimpleButton;
 		private var _btnZoonOut:SimpleButton;
 		private var _btnRotateLeft:SimpleButton;
@@ -42,8 +45,9 @@ package victor.comp
 		private const DISPLAY_AREA:Rectangle = new Rectangle( 0, 0, 500, 375 );
 		private const MIN_YEAR:int = 1960;
 		private const MAX_YEAR:int = 2013;
+		private const AREA_SCROLL:Rectangle = new Rectangle(345, 428, 137, 0);
 		
-		public var currentYear:int = 2010;
+		private var currentYear:int = 2010;
 		
 		private var lastYearBitmap:Bitmap;
 		private var lastYear:int = 0;
@@ -58,6 +62,7 @@ package victor.comp
 			_skin = new ui_Skin_EditPictureArea();
 			addChild( _skin );
 			
+			_mcYear = _skin.mcYear;
 			_btnZoonIn = _skin.btnZoonIn;
 			_btnZoonOut = _skin.btnZoonOut;
 			_btnRotateLeft = _skin.btnRotateLeft;
@@ -65,10 +70,12 @@ package victor.comp
 			_btnAgain = _skin.btnAgain;
 			_btnCommit = _skin.btnCommit;
 			_area = _skin.area;
+			_area.scrollRect = DISPLAY_AREA;
 			_container = _area.getChildByName("pic") as Sprite;
-			_btnPrev = _skin.btnPrev;
-			_btnNext = _skin.btnNext;
-			_txtYear = _skin.txtYear;
+			_btnPrev = _mcYear.btnPrev;
+			_btnNext = _mcYear.btnNext;
+			_txtYear = _mcYear.txtYear;
+			_txtYear.embedFonts = true;
 			
 			tempYearCon = new Sprite();
 			tempYearCon.x = _txtYear.x;
@@ -76,12 +83,17 @@ package victor.comp
 			tempYearCon.scrollRect = new Rectangle(0, 0, _txtYear.width, _txtYear.height );
 			tempYearCon.buttonMode = true;
 			tempYearCon.mouseChildren = false;
-			_txtYear.parent.addChild( tempYearCon );
+			
+			_mcYear.mouseChildren = false;
+			_mcYear.buttonMode = true;
 			
 			_container.buttonMode = true;
 			_txtYear.mouseEnabled = false;
 			
-			DisplayUtil.removeSelf( _txtYear );
+//			_txtYear.parent.addChild( tempYearCon );
+//			DisplayUtil.removeSelf( _txtYear );
+			
+			mcYearMouseHandler( new MouseEvent(MouseEvent.MOUSE_MOVE));
 			
 			setYear();
 			
@@ -127,6 +139,32 @@ package victor.comp
 			_btnNext.addEventListener(MouseEvent.CLICK, btnNextHandler );
 			
 			tempYearCon.addEventListener(MouseEvent.MOUSE_DOWN, yearConMouseDownHandler );
+			
+			_mcYear.addEventListener(MouseEvent.MOUSE_DOWN, mcYearMouseHandler );
+		}
+		
+		protected function mcYearMouseHandler(event:MouseEvent):void
+		{
+			var type:String = event.type;
+			if ( type == MouseEvent.MOUSE_DOWN )
+			{
+				appStage.addEventListener(MouseEvent.MOUSE_UP, mcYearMouseHandler );
+				appStage.addEventListener(MouseEvent.MOUSE_MOVE, mcYearMouseHandler );
+				_mcYear.startDrag(false, AREA_SCROLL);
+			}
+			else if ( type == MouseEvent.MOUSE_UP )
+			{
+				appStage.removeEventListener(MouseEvent.MOUSE_UP, yearConMouseDownHandler );
+				appStage.removeEventListener(MouseEvent.MOUSE_MOVE, mcYearMouseHandler );
+				_mcYear.stopDrag();
+			}
+			else if ( type == MouseEvent.MOUSE_MOVE )
+			{
+				var diff:int = MAX_YEAR - MIN_YEAR;
+				var year:int = int((( _mcYear.x - AREA_SCROLL.x ) / AREA_SCROLL.width) * diff);
+				Global.currentYear = currentYear = MIN_YEAR + year;
+				_txtYear.text = currentYear + "年";
+			}
 		}
 		
 		protected function yearConMouseDownHandler(event:MouseEvent):void
@@ -164,6 +202,7 @@ package victor.comp
 		
 		private function setYear():void
 		{
+			Global.currentYear =currentYear;
 			_txtYear.text = currentYear + "年";
 			if ( lastYear == 0 || lastYear != currentYear )
 			{
@@ -233,13 +272,22 @@ package victor.comp
 			Global.eventDispatcher.dispatchEvent(new AppEvent( AppEvent.SELECTED_AGAIN ));
 		}
 		
-		protected function onCommitHandler(event:MouseEvent):void
+		protected function onCommitHandler(event:MouseEvent = null):void
 		{
-			new SaveImage( imgByte, loadComplete );
+			mouseChildren = false;
+			AppMouse.show();
+			
+			var bitmapdata:BitmapData = new BitmapData(DISPLAY_AREA.width, DISPLAY_AREA.height, true, 0 );
+			bitmapdata.draw( _area );
+			var jpg:JPGEncoder = new JPGEncoder(80);
+			new SaveImage( jpg.encode( bitmapdata ), loadComplete );
 		}
 		
 		protected function loadComplete( picUrl:String ):void
 		{
+			AppMouse.hide();
+			mouseChildren = true;
+			
 			Global.commitFirstPicUrl = picUrl;
 			Global.eventDispatcher.dispatchEvent( new AppEvent( AppEvent.CONFIRM_COMMIT ));
 		}
@@ -294,13 +342,13 @@ package victor.comp
 		private function get bitmapData():BitmapData
 		{
 			var bitmapdata:BitmapData = new BitmapData(DISPLAY_AREA.width, DISPLAY_AREA.height, true, 0 );
-			try
-			{
-				bitmapdata.draw( _area );
-			}
-			catch( e: * )
-			{
-			}
+//			try
+//			{
+				bitmapdata.draw( this );
+//			}
+//			catch( e: * )
+//			{
+//			}
 			return bitmapdata;
 		}
 		

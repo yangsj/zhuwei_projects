@@ -1,15 +1,10 @@
 package victor
 {
-	import com.adobe.images.PNGEncoder;
-	
-	import flash.display.Bitmap;
-	import flash.display.BitmapData;
-	import flash.display.Loader;
+	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import flash.events.Event;
-	import flash.events.IOErrorEvent;
 	import flash.net.URLRequest;
-	import flash.utils.ByteArray;
+	import flash.net.navigateToURL;
 	
 	import victor.comp.CompleteEditComp;
 	import victor.comp.EditAreaComp;
@@ -68,19 +63,30 @@ package victor
 		private function compareMediaCompFunc2():void
 		{
 			// 查看对比
-			// 调用php页面，sharetosns2.php 参数为pic1、pic2，year同时传递2个参数
+			// 调用php页面，http://www.aqmtl.com/cam/sharetosns2.php 参数为pic1、pic2，year同时传递2个参数
 			// 1），上传的图片地址 pic1=/upload/1.jpg | Global.commitFirstPicUrl
 			// 2），上传的图片地址 pic2=/upload/2.jpg | Global.commitSecondPicUrl
 			// 3）.选择的年份 year=2012
-			
+			var url:String = "sharetosns2.php?pic1=" + Global.firstPicUrl + "&pic2=" + Global.secondPicUrl + "&year=" + Global.currentYear;
+			navigateToURL(new URLRequest( url ),"_self");
+//			var urlRequest:URLRequest = new URLRequest(url);
+//			urlRequest.method = URLRequestMethod.POST;
+//			var loader:URLLoader = new URLLoader();
+//			loader.load( urlRequest );
 		}
 		
 		private function completeEditCompFunc1():void
 		{
 			// 立刻发现面劲轮廓
-			// 调用php页面，sharetosns1.php 参数为pic1、year同时传递2个参数，
+			// 调用php页面，http://www.aqmtl.com/cam/sharetosns1.php 参数为pic1、year同时传递2个参数，
 			// 1），上传的图片地址 pic1=/upload/1.jpg  | Global.commitFirstPicUrl
 			// 2）.选择的年份 year=2012
+			var url:String = "sharetosns1.php?pic1=" + Global.firstPicUrl + "&year=" + Global.currentYear;
+			navigateToURL(new URLRequest( url ),"_self");
+//			var urlRequest:URLRequest = new URLRequest(url);
+//			urlRequest.method = URLRequestMethod.POST;
+//			var loader:URLLoader = new URLLoader(); 
+//			loader.load( urlRequest );
 		}
 		
 		private function completeEditCompFunc2():void
@@ -89,7 +95,7 @@ package victor
 			DisplayUtil.removeAll( _container );
 			_container.addChild( _uploadNowPicComp );
 			_uploadNowPicComp.loadImage( Global.commitFirstPicUrl );
-			_uploadNowPicComp.setLabel( _editAreaComp.currentYear );
+			_uploadNowPicComp.setYear( Global.currentYear );
 		}
 		
 		private function oepnCamera():void
@@ -99,6 +105,7 @@ package victor
 			_container.addChild( _mediaComp );
 			_mediaComp.loadOldImage( Global.commitFirstPicUrl );
 			_mediaComp.startMedia();
+			_mediaComp.setYearInfo( Global.currentYear );
 		}
 		
 		private function addlistener():void
@@ -113,6 +120,7 @@ package victor
 			DisplayUtil.removeAll( _container );
 			_container.addChild(_completeEditComp);
 			_completeEditComp.loadImage( Global.commitFirstPicUrl );
+			_completeEditComp.setYear( Global.currentYear );
 		}
 		
 		protected function selectedAgainHandler(event:Event):void
@@ -122,17 +130,17 @@ package victor
 		
 		protected function selectedLoadCompleteHandler( event:AppEvent ):void
 		{
-			var loader:Loader = event.data as Loader;
+			var loader:DisplayObject = event.data as DisplayObject;
 			if ( _uploadNowPicComp.parent )
 			{
 				DisplayUtil.removeAll( _container );
 				_container.addChild(_mediaComp);
 				_mediaComp.loadOldImage( Global.commitFirstPicUrl );
-				_mediaComp.setNewLoader( loader );
+				_mediaComp.setNewBitmap( loader );
 			}
 			else if ( _mediaComp.parent )
 			{
-				_mediaComp.setNewLoader( loader );
+				_mediaComp.setNewBitmap( loader );
 			}
 			else
 			{

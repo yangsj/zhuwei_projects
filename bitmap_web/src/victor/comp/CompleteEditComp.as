@@ -1,6 +1,6 @@
 package victor.comp
 {
-	import flash.display.Bitmap;
+	import flash.display.DisplayObject;
 	import flash.display.SimpleButton;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
@@ -39,8 +39,10 @@ package victor.comp
 			addListener();
 		}
 		
-		public function setLabel( year:int = 2010 ):void
+		public function setYear( year:int = 2010 ):void
 		{
+//			txt.text = year + "";
+			txt.embedFonts = true;
 			txt.text = year + "年的我们";
 		}
 		
@@ -49,7 +51,7 @@ package victor.comp
 			new LoadImage( url, setBitmap );
 		}
 		
-		public function setBitmap( bitmap:Bitmap ):void
+		public function setBitmap( bitmap:DisplayObject ):void
 		{
 			DisplayUtil.removeAll( area );
 			area.addChild( bitmap );

@@ -1,11 +1,13 @@
 package victor
 {
-	import flash.display.Bitmap;
 	import flash.display.Loader;
 	import flash.events.Event;
-	import flash.events.IOErrorEvent;
+	import flash.net.URLLoader;
+	import flash.net.URLLoaderDataFormat;
 	import flash.net.URLRequest;
+	import flash.system.ApplicationDomain;
 	import flash.system.LoaderContext;
+	import flash.utils.ByteArray;
 	import flash.utils.Dictionary;
 
 	public class LoadImage
@@ -15,8 +17,15 @@ package victor
 		private var loader:Loader;
 		private var loadCompleted:Function;
 		
+		private var urlLoader:URLLoader;
+		private var url:String = "";
+		
 		public function LoadImage( url:String, loadCompleted )
 		{
+			this.url = url;
+//			Security.allowDomain(url);
+//			Security.loadPolicyFile(url);
+			trace( url );
 			if ( dictData[ url ] )
 			{
 				loadCompleted( dictData[ url ] );
@@ -25,34 +34,34 @@ package victor
 			{
 				this.loadCompleted = loadCompleted;
 				
-				loader = new Loader();
-				loader.contentLoaderInfo.addEventListener(Event.COMPLETE, loaderCompleteHandler );
-				loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler );
-				loader.load( new URLRequest( url ), new LoaderContext(true));
+				urlLoader = new URLLoader();
+				urlLoader.addEventListener(Event.COMPLETE, loaderCompleteHandler2 );
+				urlLoader.dataFormat = URLLoaderDataFormat.BINARY;
+				urlLoader.load(new URLRequest( url ));
 			}
 		}
 		
-		private function removeListener():void
+		protected function loaderCompleteHandler2(event:Event):void
 		{
-			loader.contentLoaderInfo.removeEventListener(Event.COMPLETE, loaderCompleteHandler );
-			loader.contentLoaderInfo.removeEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler );
+			urlLoader.removeEventListener(Event.COMPLETE, loaderCompleteHandler2 );
+			loader = new Loader();
+			loader.contentLoaderInfo.addEventListener(Event.COMPLETE, imageDataComplete);
+			loader.loadBytes(urlLoader.data as ByteArray, new LoaderContext(false, ApplicationDomain.currentDomain));
+
 		}
 		
-		protected function loaderCompleteHandler(event:Event):void
+		protected function imageDataComplete(event:Event):void
 		{
-			removeListener();
-			
-			var bitmap:Bitmap = loader.content as Bitmap;
-			dictData[ loader.contentLoaderInfo.url ] = bitmap;
+			loader.contentLoaderInfo.removeEventListener(Event.COMPLETE, imageDataComplete);
+//			Security.allowDomain(loader.contentLoaderInfo.url);
+			dictData[ url ] = loader.content;
 			if ( loadCompleted )
-				loadCompleted( bitmap );
-		}	
-		
-		protected function ioErrorHandler(event:IOErrorEvent):void
-		{
-			removeListener();
-		}	
-		
+				loadCompleted( loader.content );
+			
+			loader = null;
+			urlLoader = null;
+			loadCompleted = null;
+		}
 		
 	}
 }

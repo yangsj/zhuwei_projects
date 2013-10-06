@@ -1,5 +1,7 @@
 package victor.comp
 {
+	import flash.display.Bitmap;
+	import flash.display.BitmapData;
 	import flash.display.Loader;
 	import flash.display.SimpleButton;
 	import flash.display.Sprite;
@@ -9,6 +11,7 @@ package victor.comp
 	import flash.net.FileReference;
 	
 	import victor.Global;
+	import victor.LoadImage;
 	import victor.event.AppEvent;
 	
 	public class SelectedPictureComp extends Sprite
@@ -57,8 +60,16 @@ package victor.comp
 			cancelHandler( null );
 			
 			var loader:Loader = new Loader();
+			loader.contentLoaderInfo.addEventListener(Event.COMPLETE, imageDataComplete);
 			loader.loadBytes(_fileReference.data);
-			Global.eventDispatcher.dispatchEvent( new AppEvent( AppEvent.SELECTED_LOAD_COMPLETE, loader ));
+			function imageDataComplete(event:Event):void
+			{
+				var bitmap:Bitmap = new Bitmap( new BitmapData( loader.content.width, loader.content.height, true, 0 ), "auto", true );
+				bitmap.bitmapData.draw( loader.content );
+				
+				loader.contentLoaderInfo.removeEventListener(Event.COMPLETE, imageDataComplete);
+				Global.eventDispatcher.dispatchEvent( new AppEvent( AppEvent.SELECTED_LOAD_COMPLETE, bitmap ));
+			}
 		}
 		
 		protected function selectedHandler(event:Event):void

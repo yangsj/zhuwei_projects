@@ -58,6 +58,31 @@ package victor
 		{
 			_commitSecondPicUrl = value;
 		}
+		
+		public static function get firstPicUrl():String
+		{
+//			return _commitFirstPicUrl;
+			var i1:int = _commitFirstPicUrl.lastIndexOf("/") + 1;
+			return _commitFirstPicUrl.substr( i1 );
+		}
+		
+		public static function get secondPicUrl():String
+		{
+//			return _commitSecondPicUrl;
+			var i1:int = _commitSecondPicUrl.lastIndexOf("/") + 1;
+			return _commitSecondPicUrl.substr( i1 );
+		}
+		
+		private static var _currentYear:int;
+		public static function get currentYear():int
+		{
+			return _currentYear;
+		}
+		
+		public static function set currentYear(value:int):void
+		{
+			_currentYear = value;
+		}
 
 	}
 }
