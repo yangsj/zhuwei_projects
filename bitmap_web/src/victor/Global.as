@@ -61,14 +61,12 @@ package victor
 		
 		public static function get firstPicUrl():String
 		{
-//			return _commitFirstPicUrl;
 			var i1:int = _commitFirstPicUrl.lastIndexOf("/") + 1;
 			return _commitFirstPicUrl.substr( i1 );
 		}
 		
 		public static function get secondPicUrl():String
 		{
-//			return _commitSecondPicUrl;
 			var i1:int = _commitSecondPicUrl.lastIndexOf("/") + 1;
 			return _commitSecondPicUrl.substr( i1 );
 		}
@@ -83,6 +81,18 @@ package victor
 		{
 			_currentYear = value;
 		}
+
+		private static var _step:int = 0;
+		public static function get step():int
+		{
+			return _step;
+		}
+		
+		public static function set step(value:int):void
+		{
+			_step = value;
+		}
+		
 
 	}
 }

@@ -1,11 +1,13 @@
 package victor.comp
 {
 	import com.adobe.images.JPGEncoder;
+	import com.adobe.images.PNGEncoder;
 	import com.greensock.TweenMax;
 	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
+	import flash.display.MovieClip;
 	import flash.display.SimpleButton;
 	import flash.display.Sprite;
 	import flash.events.ActivityEvent;
@@ -26,7 +28,7 @@ package victor.comp
 	public class MediaComp extends Sprite
 	{
 		private const camera:Camera = Camera.getCamera();
-		private const DISPLAY_AREA:Rectangle = new Rectangle( 0, 0, 465, 345 );
+		private const DISPLAY_AREA:Rectangle = new Rectangle( 0, 0, 440, 284 );
 		
 		private var skin:ui_Skin_OpenCamera;
 		
@@ -42,8 +44,11 @@ package victor.comp
 		private var _btnAgainLoad:SimpleButton;
 		private var _area:Sprite;
 		private var _tempSprite:Sprite;
-		private var _btnCompare:SimpleButton;
 		private var _txtYear:TextField;
+		private var _bitmapTarget:MovieClip;
+		
+		private var _btnBack:SimpleButton;
+		private var _btnCompare:SimpleButton;
 		
 		
 		private var _endRotation:Number = 0;
@@ -64,16 +69,14 @@ package victor.comp
 			addChild( skin );
 			
 			_oldPic = skin.oldPic;
-			_area = skin.area;
+			_bitmapTarget = skin.container;
+			_area = _bitmapTarget.area;
 			_area.scrollRect = DISPLAY_AREA;
 			_newPic = _area.getChildByName("pic") as Sprite;
-			_btnPhoto = skin.btnPhoto;
 			_btnZoonIn = skin.btnZoonIn;
 			_btnZoonOut = skin.btnZoonOut;
 			_btnRotateLeft = skin.btnRotateLeft;
 			_btnRotateRight = skin.btnRotateRight;
-			_btnAgainPhoto = skin.btnAgainPhoto;
-			_btnAgainLoad = skin.btnAgainLoad;
 			_btnCompare = skin.btnCompare;
 			_txtYear = skin.txt;
 			
@@ -81,9 +84,15 @@ package victor.comp
 			_tempSprite = new Sprite();
 			_newPic.addChild(_tempSprite);
 			
-			_btnPhoto.addEventListener(MouseEvent.CLICK, onClickHandler );
-			_btnAgainLoad.addEventListener(MouseEvent.CLICK, btnAgainLoadHandler );
-			_btnAgainPhoto.addEventListener(MouseEvent.CLICK, btnAgainPhotoHandler );
+//			_btnPhoto = skin.btnPhoto;
+//			_btnAgainPhoto = skin.btnAgainPhoto;
+//			_btnAgainLoad = skin.btnAgainLoad;
+//			_btnPhoto.addEventListener(MouseEvent.CLICK, onClickHandler );
+//			_btnAgainLoad.addEventListener(MouseEvent.CLICK, btnAgainLoadHandler );
+//			_btnAgainPhoto.addEventListener(MouseEvent.CLICK, btnAgainPhotoHandler );
+			
+			_btnBack = skin.btnBack;
+			_btnBack.addEventListener(MouseEvent.CLICK, onBackHandler );
 			
 			_btnZoonIn.addEventListener(MouseEvent.CLICK, onZoonInHandler );
 			_btnZoonOut.addEventListener(MouseEvent.CLICK, onZoonOutHandler );
@@ -93,6 +102,11 @@ package victor.comp
 			_btnCompare.addEventListener(MouseEvent.CLICK, onCompareHandler );
 			
 			addEventListener( Event.ENTER_FRAME, enterFrameHandler );
+		}
+		
+		protected function onBackHandler(event:MouseEvent):void
+		{
+			openLocal();
 		}
 		
 		protected function onCompareHandler(event:MouseEvent):void
@@ -170,9 +184,11 @@ package victor.comp
 		
 		public function setYearInfo( year:int ):void
 		{
-//			_txtYear.text = year + "";
-			_txtYear.embedFonts = true;
-			_txtYear.text = year + "年的我们";
+			if ( _txtYear )
+			{
+				_txtYear.embedFonts = true;
+				_txtYear.text = year + "年的我们";
+			}
 		}
 		
 		public function loadOldImage( url:String ):void
@@ -180,11 +196,16 @@ package victor.comp
 			new LoadImage( url, setOldBitmap );
 		}
 		
+		public function loadNewImage( url:String ):void
+		{
+			new LoadImage( url, setNewBitmap );
+		}
+		
 		public function setOldBitmap( bitmap:DisplayObject ):void
 		{
 			DisplayUtil.removeAll( _oldPic );
-			bitmap.width = bitmap.width > DISPLAY_AREA.width ? DISPLAY_AREA.width : bitmap.width;
-			bitmap.height = bitmap.height > DISPLAY_AREA.height ? DISPLAY_AREA.height : bitmap.height;
+//			bitmap.width = bitmap.width > DISPLAY_AREA.width ? DISPLAY_AREA.width : bitmap.width;
+//			bitmap.height = bitmap.height > DISPLAY_AREA.height ? DISPLAY_AREA.height : bitmap.height;
 			_oldPic.addChild( bitmap );
 		}
 		
@@ -197,14 +218,11 @@ package victor.comp
 			_btnZoonOut.visible = true;
 			_btnRotateLeft.visible = true;
 			_btnRotateRight.visible = true;
-			_btnAgainPhoto.visible = true;
-			_btnAgainLoad.visible = true;
 			_btnCompare.visible = true;
 			
-			_btnPhoto.visible = false;
-			
-			_btnAgainLoad.visible = false;
-			_btnAgainPhoto.visible = true;
+//			_btnPhoto.visible = false;
+//			_btnAgainLoad.visible = false;
+//			_btnAgainPhoto.visible = true;
 			
 			_area.mouseChildren = true;
 			_newPic.buttonMode = true;
@@ -221,14 +239,11 @@ package victor.comp
 			_btnZoonOut.visible = false;
 			_btnRotateLeft.visible = false;
 			_btnRotateRight.visible = false;
-			_btnAgainPhoto.visible = false;
-			_btnAgainLoad.visible = false;
 			_btnCompare.visible = false;
 			
-			_btnPhoto.visible = true;
-			
-			_area.mouseChildren = false;
-			_newPic.buttonMode = false;
+//			_btnPhoto.visible = true;
+//			_area.mouseChildren = false;
+//			_newPic.buttonMode = false;
 			
 			huanyuan();
 			
@@ -280,19 +295,14 @@ package victor.comp
 		
 		private function get bitmapData():BitmapData
 		{
-			var bitmapdata:BitmapData = new BitmapData(DISPLAY_AREA.width, DISPLAY_AREA.height, true, 0 );
-			try
-			{
-				bitmapdata.draw( _area );
-			}
-			catch( e: * )
-			{
-			}
+			var bitmapdata:BitmapData = new BitmapData(_bitmapTarget.width, _bitmapTarget.height, true, 0 );
+			bitmapdata.draw( _bitmapTarget );
 			return bitmapdata;
 		}
 		
 		private function get imgByte():ByteArray
 		{
+			return PNGEncoder.encode( bitmapData );
 			var jpg:JPGEncoder = new JPGEncoder(80);
 			return jpg.encode( bitmapData );
 		}

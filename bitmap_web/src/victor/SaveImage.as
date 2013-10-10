@@ -16,7 +16,7 @@ package victor
 		{
 			this.loadedCompleted = loadedCompleted;
 			
-			var request:URLRequest = new URLRequest("saveimg.php");//http://www.aqmtl.com/cam/
+			var request:URLRequest = new URLRequest("http://www.aqmtl.com/cam/saveimg.php");//http://www.aqmtl.com/cam/
 			request.method = URLRequestMethod.POST;
 			request.data = imgByte;
 			
@@ -30,7 +30,7 @@ package victor
 		{
 			loader.removeEventListener(Event.COMPLETE, loadCompleteHandler );
 			var url:String = loader.data as String;
-			if ( url.indexOf("jpg") == -1 && (url.length == 5 || (url == "error" || url == "Error" )))
+			if ( (url.length == 5 || (url == "error" || url == "Error" )))
 			{
 				if ( ExternalInterface.available )
 				{

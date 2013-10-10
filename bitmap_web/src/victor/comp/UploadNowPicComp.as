@@ -1,11 +1,9 @@
 package victor.comp
 {
-	import flash.display.Bitmap;
 	import flash.display.DisplayObject;
 	import flash.display.SimpleButton;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
-	import flash.geom.Rectangle;
 	import flash.text.TextField;
 	
 	import victor.DisplayUtil;
@@ -13,9 +11,7 @@ package victor.comp
 	
 	public class UploadNowPicComp extends Sprite
 	{
-		private const DISPLAY_AREA:Rectangle = new Rectangle( 0, 0, 465, 345 );
-		
-		private var skin:ui_Skin_StartCompareCom;
+		private var skin:ui_Skin_UploadNowPicComp;
 		private var btnCamera:SimpleButton;
 		private var btnLocal:SimpleButton;
 		private var area:Sprite;
@@ -31,7 +27,7 @@ package victor.comp
 			this.openCamera =openCamera;
 			this.openLocal = openLocal;
 			
-			skin = new ui_Skin_StartCompareCom();
+			skin = new ui_Skin_UploadNowPicComp();
 			addChild( skin );
 			
 			btnCamera = skin.btnCamera;
@@ -42,13 +38,6 @@ package victor.comp
 			addListener();
 		}
 		
-		public function setYear( year:int ):void
-		{
-//			txtLabel.text = year + "";
-			txtLabel.embedFonts = true;
-			txtLabel.text = year + "年的我们";
-		}
-		
 		public function loadImage( url:String ):void
 		{
 			new LoadImage( url, setBitmap );
@@ -57,9 +46,6 @@ package victor.comp
 		public function setBitmap( bitmap:DisplayObject ):void
 		{
 			DisplayUtil.removeAll( area );
-			trace( bitmap.width, bitmap.height );
-			bitmap.width = Math.min( DISPLAY_AREA.width, bitmap.width );
-			bitmap.height = Math.min( DISPLAY_AREA.height, bitmap.height );
 			area.addChild( bitmap );
 		}
 		

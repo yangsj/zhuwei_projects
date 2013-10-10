@@ -6,7 +6,6 @@ package victor
 	import flash.net.URLRequest;
 	import flash.net.navigateToURL;
 	
-	import victor.comp.CompleteEditComp;
 	import victor.comp.EditAreaComp;
 	import victor.comp.MediaComp;
 	import victor.comp.SelectedPictureComp;
@@ -21,7 +20,6 @@ package victor
 		private var _selectdComp:SelectedPictureComp;
 		private var _editAreaComp:EditAreaComp;
 		private var _mediaComp:MediaComp;
-		private var _completeEditComp:CompleteEditComp;
 		private var _uploadNowPicComp:UploadNowPicComp;
 		
 		public function Main()
@@ -31,9 +29,8 @@ package victor
 			
 			_selectdComp = new SelectedPictureComp();
 			_editAreaComp = new EditAreaComp();
-			_mediaComp = new MediaComp( compareMediaCompFunc1, compareMediaCompFunc2 );
-			_completeEditComp = new CompleteEditComp(completeEditCompFunc1, completeEditCompFunc2);
 			_uploadNowPicComp = new UploadNowPicComp( oepnCamera, _selectdComp.selectedImage );
+			_mediaComp = new MediaComp( compareMediaCompFunc1, compareMediaCompFunc2 );
 			
 			addlistener();
 			
@@ -45,8 +42,17 @@ package victor
 			if ( Global.isFronSNS )
 			{
 				DisplayUtil.removeAll( _container );
-				_container.addChild(_editAreaComp);
-				_editAreaComp.loadImageForSNS( Global.snsUrl );
+				if ( Global.step == 1 )
+				{
+					_container.addChild(_editAreaComp);
+					_editAreaComp.loadImageForSNS( Global.snsUrl );
+				}
+				else if ( Global.step == 2 )
+				{
+					DisplayUtil.removeAll( _container );
+					_container.addChild( _uploadNowPicComp );
+					_uploadNowPicComp.loadImage( Global.snsUrl );
+				}
 			}
 			else
 			{
@@ -69,12 +75,9 @@ package victor
 			// 3）.选择的年份 year=2012
 			var url:String = "sharetosns2.php?pic1=" + Global.firstPicUrl + "&pic2=" + Global.secondPicUrl + "&year=" + Global.currentYear;
 			navigateToURL(new URLRequest( url ),"_self");
-//			var urlRequest:URLRequest = new URLRequest(url);
-//			urlRequest.method = URLRequestMethod.POST;
-//			var loader:URLLoader = new URLLoader();
-//			loader.load( urlRequest );
 		}
 		
+		// 调用页面
 		private function completeEditCompFunc1():void
 		{
 			// 立刻发现面劲轮廓
@@ -83,10 +86,6 @@ package victor
 			// 2）.选择的年份 year=2012
 			var url:String = "sharetosns1.php?pic1=" + Global.firstPicUrl + "&year=" + Global.currentYear;
 			navigateToURL(new URLRequest( url ),"_self");
-//			var urlRequest:URLRequest = new URLRequest(url);
-//			urlRequest.method = URLRequestMethod.POST;
-//			var loader:URLLoader = new URLLoader(); 
-//			loader.load( urlRequest );
 		}
 		
 		private function completeEditCompFunc2():void
@@ -95,7 +94,6 @@ package victor
 			DisplayUtil.removeAll( _container );
 			_container.addChild( _uploadNowPicComp );
 			_uploadNowPicComp.loadImage( Global.commitFirstPicUrl );
-			_uploadNowPicComp.setYear( Global.currentYear );
 		}
 		
 		private function oepnCamera():void
@@ -114,15 +112,13 @@ package victor
 			Global.eventDispatcher.addEventListener(AppEvent.SELECTED_AGAIN, selectedAgainHandler );
 			Global.eventDispatcher.addEventListener(AppEvent.CONFIRM_COMMIT, confirmCommitHandler );
 		}
-		
+			
 		protected function confirmCommitHandler(event:Event):void
 		{
-			DisplayUtil.removeAll( _container );
-			_container.addChild(_completeEditComp);
-			_completeEditComp.loadImage( Global.commitFirstPicUrl );
-			_completeEditComp.setYear( Global.currentYear );
+//			completeEditCompFunc1(); // 正式
+			completeEditCompFunc2(); // 临时本地测试
 		}
-		
+			
 		protected function selectedAgainHandler(event:Event):void
 		{
 			_selectdComp.selectedImage();

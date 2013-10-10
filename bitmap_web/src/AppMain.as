@@ -31,6 +31,7 @@ package
 			{
 				Global.isFronSNS = true;
 				Global.snsUrl = parameters["pic"]; 
+				Global.step = int( parameters[ "step" ] );
 			}
 			
 			// test

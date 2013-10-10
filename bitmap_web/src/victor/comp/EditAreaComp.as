@@ -1,6 +1,7 @@
 package victor.comp
 {
 	import com.adobe.images.JPGEncoder;
+	import com.adobe.images.PNGEncoder;
 	import com.greensock.TweenMax;
 	import com.greensock.easing.Linear;
 	
@@ -41,11 +42,12 @@ package victor.comp
 		private var _loaderSprite:Sprite;
 		private var _endRotation:Number = 0;
 		private var _endScale:Number = 1;
+		private var _bitmapTarget:MovieClip;
 		
-		private const DISPLAY_AREA:Rectangle = new Rectangle( 0, 0, 500, 375 );
+		private const DISPLAY_AREA:Rectangle = new Rectangle( 0, 0, 440, 284 );
 		private const MIN_YEAR:int = 1960;
 		private const MAX_YEAR:int = 2013;
-		private const AREA_SCROLL:Rectangle = new Rectangle(345, 428, 137, 0);
+		private const AREA_SCROLL:Rectangle = new Rectangle(345, 445, 102, 0);
 		
 		private var currentYear:int = 2010;
 		
@@ -62,6 +64,7 @@ package victor.comp
 			_skin = new ui_Skin_EditPictureArea();
 			addChild( _skin );
 			
+			_bitmapTarget = _skin.container;
 			_mcYear = _skin.mcYear;
 			_btnZoonIn = _skin.btnZoonIn;
 			_btnZoonOut = _skin.btnZoonOut;
@@ -69,7 +72,7 @@ package victor.comp
 			_btnRotateRight = _skin.btnRotateRight;
 			_btnAgain = _skin.btnAgain;
 			_btnCommit = _skin.btnCommit;
-			_area = _skin.area;
+			_area = _bitmapTarget.area;
 			_area.scrollRect = DISPLAY_AREA;
 			_container = _area.getChildByName("pic") as Sprite;
 			_btnPrev = _mcYear.btnPrev;
@@ -89,9 +92,6 @@ package victor.comp
 			
 			_container.buttonMode = true;
 			_txtYear.mouseEnabled = false;
-			
-//			_txtYear.parent.addChild( tempYearCon );
-//			DisplayUtil.removeSelf( _txtYear );
 			
 			mcYearMouseHandler( new MouseEvent(MouseEvent.MOUSE_MOVE));
 			
@@ -164,6 +164,7 @@ package victor.comp
 				var year:int = int((( _mcYear.x - AREA_SCROLL.x ) / AREA_SCROLL.width) * diff);
 				Global.currentYear = currentYear = MIN_YEAR + year;
 				_txtYear.text = currentYear + "年";
+				_txtYear.embedFonts = true;
 			}
 		}
 		
@@ -276,11 +277,7 @@ package victor.comp
 		{
 			mouseChildren = false;
 			AppMouse.show();
-			
-			var bitmapdata:BitmapData = new BitmapData(DISPLAY_AREA.width, DISPLAY_AREA.height, true, 0 );
-			bitmapdata.draw( _area );
-			var jpg:JPGEncoder = new JPGEncoder(80);
-			new SaveImage( jpg.encode( bitmapdata ), loadComplete );
+			new SaveImage( imgByte, loadComplete );
 		}
 		
 		protected function loadComplete( picUrl:String ):void
@@ -341,19 +338,14 @@ package victor.comp
 		
 		private function get bitmapData():BitmapData
 		{
-			var bitmapdata:BitmapData = new BitmapData(DISPLAY_AREA.width, DISPLAY_AREA.height, true, 0 );
-//			try
-//			{
-				bitmapdata.draw( this );
-//			}
-//			catch( e: * )
-//			{
-//			}
+			var bitmapdata:BitmapData = new BitmapData(_bitmapTarget.width, _bitmapTarget.height, true, 0 );
+			bitmapdata.draw( _bitmapTarget );
 			return bitmapdata;
 		}
 		
 		private function get imgByte():ByteArray
 		{
+			return PNGEncoder.encode( bitmapData );
 			var jpg:JPGEncoder = new JPGEncoder(80);
 			return jpg.encode( bitmapData );
 		}
