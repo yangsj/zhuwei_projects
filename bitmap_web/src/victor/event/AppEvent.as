@@ -37,6 +37,11 @@ package victor.event
 		 */
 		public static const SELECTED_IMG_FROM_HTML:String = "selected_img_from_html";
 		
+		/**
+		 * 选择描述
+		 */
+		public static const SELCTED_DES:String = "selcted_des";
+		
 		public function get data():Object
 		{
 			return _data;

@@ -16,7 +16,8 @@ package victor
 		{
 			this.loadedCompleted = loadedCompleted;
 			
-			var request:URLRequest = new URLRequest("saveimg.php");//http://www.aqmtl.com/cam/
+			var url:String = Global.isTest ? "http://www.aqmtl.com/cam/saveimg.php" : "saveimg.php";
+			var request:URLRequest = new URLRequest(url);//http://www.aqmtl.com/cam/
 			request.method = URLRequestMethod.POST;
 			request.data = imgByte;
 			

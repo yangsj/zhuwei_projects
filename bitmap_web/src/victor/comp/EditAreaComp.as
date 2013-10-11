@@ -47,7 +47,7 @@ package victor.comp
 		private const DISPLAY_AREA:Rectangle = new Rectangle( 0, 0, 440, 284 );
 		private const MIN_YEAR:int = 1960;
 		private const MAX_YEAR:int = 2013;
-		private const AREA_SCROLL:Rectangle = new Rectangle(345, 445, 102, 0);
+		private const AREA_SCROLL:Rectangle = new Rectangle(346, 452, 102, 0);
 		
 		private var currentYear:int = 2010;
 		
@@ -55,6 +55,9 @@ package victor.comp
 		private var lastYear:int = 0;
 		private var tempYearCon:Sprite;
 		private var downMouseX:Number;
+		
+		private var desContainer:Sprite;
+		private var wordsList:WordsList;
 		
 		public function EditAreaComp()
 		{
@@ -93,7 +96,10 @@ package victor.comp
 			_container.buttonMode = true;
 			_txtYear.mouseEnabled = false;
 			
-			mcYearMouseHandler( new MouseEvent(MouseEvent.MOUSE_MOVE));
+			desContainer = new Sprite();
+			desContainer.x = 144;
+			desContainer.y = 344;
+			_bitmapTarget.addChild( desContainer );
 			
 			setYear();
 			
@@ -141,6 +147,31 @@ package victor.comp
 			tempYearCon.addEventListener(MouseEvent.MOUSE_DOWN, yearConMouseDownHandler );
 			
 			_mcYear.addEventListener(MouseEvent.MOUSE_DOWN, mcYearMouseHandler );
+			
+			Global.eventDispatcher.addEventListener( AppEvent.SELCTED_DES, selectedDesHandler );
+			
+			addEventListener( Event.ADDED_TO_STAGE, addedToStageHandler );
+		}
+		
+		protected function addedToStageHandler(event:Event):void
+		{
+			removeEventListener( Event.ADDED_TO_STAGE, addedToStageHandler );
+			
+			wordsList = new WordsList();
+			addChild( wordsList );
+			
+			mcYearMouseHandler( new MouseEvent(MouseEvent.MOUSE_MOVE));
+		}
+		
+		protected function selectedDesHandler( event:AppEvent ):void
+		{
+			if( stage )
+			{
+				DisplayUtil.removeAll( desContainer );
+				var bitmap:Bitmap = new Bitmap( event.data as BitmapData, "auto", true );
+				bitmap.y = 3;
+				desContainer.addChild( bitmap );
+			}
 		}
 		
 		protected function mcYearMouseHandler(event:MouseEvent):void
@@ -163,8 +194,9 @@ package victor.comp
 				var diff:int = MAX_YEAR - MIN_YEAR;
 				var year:int = int((( _mcYear.x - AREA_SCROLL.x ) / AREA_SCROLL.width) * diff);
 				Global.currentYear = currentYear = MIN_YEAR + year;
-				_txtYear.text = currentYear + "年";
+				_txtYear.htmlText = currentYear + "<font size=\"12\">年</font>";
 				_txtYear.embedFonts = true;
+				wordsList.setYear( currentYear );
 			}
 		}
 		

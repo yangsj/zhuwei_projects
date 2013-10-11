@@ -8,6 +8,11 @@ package victor
 		{
 		}
 		
+		public static function get isTest():Boolean
+		{
+			return false;
+		}
+		
 		private static var _snsUrl:String = "";
 		public static function get snsUrl():String
 		{

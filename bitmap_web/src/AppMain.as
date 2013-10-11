@@ -6,7 +6,7 @@ package
 	import victor.Global;
 	import victor.Main;
 	
-	[SWF(width="1200", height="700", frameRate="60", backgroundColor="0")]
+	[SWF(width="1200", height="700", frameRate="60", backgroundColor="0xffffff")]
 	public class AppMain extends Sprite
 	{
 		public function AppMain()

@@ -127,11 +127,13 @@ package victor
 			_mediaComp.loadOldImage( Global.commitFirstPicUrl );
 			_mediaComp.loadNewImage( event.data as String );
 		}
-			
+
 		protected function confirmCommitHandler( event:AppEvent ):void
 		{
-			completeEditCompFunc1(); // 正式
-//			completeEditCompFunc2(); // 临时本地测试
+			if ( Global.isTest )
+				completeEditCompFunc2(); // 临时本地测试
+			else
+				completeEditCompFunc1(); // 正式
 		}
 			
 		protected function selectedAgainHandler( event:AppEvent ):void
