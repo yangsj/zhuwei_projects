@@ -11,10 +11,54 @@
 
 <script language="javascript" type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script language="javascript" type="text/javascript" src="Scripts/swfobject.js"></script>
-<title>demo</title>
+<title>flashedit</title>
 
         <script type="text/javascript">
-            var flashvars = {};  
+
+            var picurl = request("pic");
+            var step = request("step");
+            var flashvars = {};
+            if (picurl) {
+                flashvars.pic = picurl;
+            }
+            if (step) {
+                flashvars.step = step;
+            }
+            function selectsns() {
+                alert("show sns");
+				try
+				{
+					var flash = thisMovie("mainflash");
+				}
+				catch (e)
+				{
+					alert("error0");
+				}
+
+				try
+				{
+					//if (flash && flash.selectimg) {
+						flash.selectimg("http://sh.sinaimg.cn/iframe/489/2012/0627/U10201P18T489D1F14630DT20131011092708.jpg");
+					//}
+					//else {
+					//	alert("error1");
+					//}
+				}
+				catch (e)
+				{
+					alert("error2");
+				}
+            }
+
+			function thisMovie(movieName){
+				  if (navigator.appName.indexOf("Microsoft") != -1){
+						return window[movieName];
+				  } else {
+				   return document[movieName];
+				  }
+			 }
+
+
 		    var params = {};
 		    params.quality = "high";
 		    params.wmode = "transparent";
@@ -25,35 +69,22 @@
 		    params.allowScriptAccess = "always";
 		    var attributes = { id: "mainflash" };
 		    swfobject.embedSWF("flash/main.swf?rd=" + getRandom(9999), "flashContent", "1200", "700", "11.0.0", "expressInstall.swf", flashvars, params, attributes);
+		    function getRandom(n) { return Math.floor(Math.random() * n + 1) }
 		    
-			function getRandom(n) { return Math.floor(Math.random() * n + 1) }
-
-			function selectsns()
-			{
-				alert("flash调用到js方法selectsns");
-
-				try
-				{
-					var flash = thisMovie("mainflash"); 
-					alert(flash);
-					var str = flash.selectimg();//"http://img.adbox.sina.com.cn/pic/21716.jpg"
-					alert("abc:" + str);
-				}
-				catch (e)
-				{
-					alert("error:" + e.name + " | " + e.description + " | number:" + e.number);
-				}
-			}
-
-			function thisMovie(movieName) 
-			{
-				if (navigator.appName.indexOf("Microsoft") != -1) {
-					return window[movieName]
-				}else{
-					return document[movieName]
-				}
-			}
-
+		    function request(paras) {
+		        var url = location.href;
+		        var paraString = url.substring(url.indexOf("?") + 1, url.length).split("&");
+		        var paraObj = {}
+		        for (i = 0; j = paraString[i]; i++) {
+		            paraObj[j.substring(0, j.indexOf("=")).toLowerCase()] = j.substring(j.indexOf("=") + 1, j.length);
+		        }
+		        var returnValue = paraObj[paras.toLowerCase()];
+		        if (typeof (returnValue) == "undefined") {
+		            return "";
+		        } else {
+		            return returnValue;
+		        }
+		    }
             </script>
 </head>
 <body>

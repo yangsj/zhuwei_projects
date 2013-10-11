@@ -14,7 +14,7 @@ package victor
 		{
 			if ( ExternalInterface.available )
 			{
-				addFuncForJs();
+//				addFuncForJs();
 				ExternalInterface.call( "selectsns" );
 //				Global.eventDispatcher.dispatchEvent( new AppEvent( AppEvent.SELECTED_IMG_FROM_HTML, "http://img.adbox.sina.com.cn/pic/21716.jpg" ));
 			}
@@ -22,14 +22,22 @@ package victor
 		
 		public static function addFuncForJs():void
 		{
-			if ( ExternalInterface.available )
+			try
 			{
-				ExternalInterface.addCallback( "selectimg", selectimgFromSns );
+				if ( ExternalInterface.available )
+				{
+					ExternalInterface.addCallback( "selectimg", selectimgFromSns );
+				}
+			}
+			catch ( e:* )
+			{
+				ExternalInterface.call( "alert", " flash注册方法错误" );
 			}
 		}
 		
 		private static function selectimgFromSns( imgUrl:String ):void
 		{
+			ExternalInterface.call( "alert", "JS成功调用Flash" + imgUrl );
 			Global.eventDispatcher.dispatchEvent( new AppEvent( AppEvent.SELECTED_IMG_FROM_HTML, imgUrl ));
 		}
 		

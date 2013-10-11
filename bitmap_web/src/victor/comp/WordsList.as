@@ -36,6 +36,8 @@ package victor.comp
 		private var tabControl:TabButtonControl;
 		private var selectedItem:MovieClip;
 		
+		private const HEIGHT:Number = 38;
+		
 		public function WordsList()
 		{
 			x = 144;
@@ -44,7 +46,7 @@ package victor.comp
 			skin = new ui_Skin_WordList();
 			addChild( skin );
 			listArea = new Sprite();
-			listArea.y = skin.height;
+			listArea.y = HEIGHT;
 			itemContainer = new Sprite();
 			listArea.addChild( itemContainer );
 			skin.addChild( listArea );
@@ -56,7 +58,7 @@ package victor.comp
 			
 			intiList();
 			
-			filters = [new DropShadowFilter(4,45,0,0.8,20,20,0.3),new DropShadowFilter(4,135,0,0.8,20,20,0.3)];
+			listArea.filters = [new DropShadowFilter(4,45,0,0.3,20,20,0.3),new DropShadowFilter(4,135,0,0.3,20,20,0.3)];
 		}
 		
 		private function intiList():void
@@ -66,7 +68,7 @@ package victor.comp
 			for (var i:int = 0; i < WORD_LIST.length; i++ )
 			{
 				mc = new ui_Skin_WordItem();
-				mc.y = mc.height * i;
+				mc.y = HEIGHT * i;
 				setYearForItem( mc, 2013, WORD_LIST[ i ] );
 				itemContainer.addChild( mc );
 				tabControl.addTarget( mc );
@@ -157,7 +159,7 @@ package victor.comp
 			var txtYear:TextField = mc.getChildByName( "txtYear" ) as TextField;
 			var txtLabel1:TextField = mc.getChildByName( "txtLabel1" ) as TextField;
 			var txtLabel2:TextField = mc.getChildByName( "txtLabel2" ) as TextField;
-			var text:String = "<font size=\"17\" face=\"" + txtYear.defaultTextFormat.font + "\">" + year + "</font>" + des;
+			var text:String = year + des;//"<font size=\"17\" face=\"" + txtYear.defaultTextFormat.font + "\">" + year + "</font>" + des;
 			txtLabel1.embedFonts = true;
 			txtLabel2.embedFonts = true;
 			txtLabel1.htmlText = text;

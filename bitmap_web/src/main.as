@@ -5,6 +5,9 @@ package
 	import flash.events.Event;
 	import flash.events.ProgressEvent;
 	import flash.net.URLRequest;
+	import flash.system.Security;
+	
+	import victor.ExternalManager;
 	
 	[SWF(width="1200", height="700", frameRate="60", backgroundColor="0")]
 	/**
@@ -19,6 +22,7 @@ package
 		
 		public function main()
 		{
+			Security.allowDomain("*");
 			if ( stage )
 				initApp();
 			else addEventListener( Event.ADDED_TO_STAGE, initApp );
@@ -27,6 +31,8 @@ package
 		private function initApp( event:Event = null ):void
 		{
 			removeEventListener( Event.ADDED_TO_STAGE, initApp );
+			
+			ExternalManager.addFuncForJs();
 			
 			mcLoaded = new ui_Skin_Loading();
 			mcLoaded.x = stage.stageWidth >> 1;
