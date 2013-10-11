@@ -55,7 +55,7 @@ package victor
 			loader.contentLoaderInfo.removeEventListener(Event.COMPLETE, imageDataComplete);
 //			Security.allowDomain(loader.contentLoaderInfo.url);
 			dictData[ url ] = loader.content;
-			if ( loadCompleted )
+			if ( loadCompleted != null )
 				loadCompleted( loader.content );
 			
 			loader = null;

@@ -37,7 +37,7 @@ package victor
 					ExternalInterface.call("uploaderror");
 				}
 			}
-			else if ( loadedCompleted )
+			else if ( loadedCompleted != null )
 			{
 				loadedCompleted( url );
 			}

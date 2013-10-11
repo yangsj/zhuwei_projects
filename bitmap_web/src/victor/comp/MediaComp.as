@@ -119,7 +119,7 @@ package victor.comp
 				_btnCompare.mouseEnabled = true;
 				AppMouse.hide();
 				Global.commitSecondPicUrl = picUrl;
-				if ( compareFunc )
+				if ( compareFunc != null )
 					compareFunc();
 			}
 		}
