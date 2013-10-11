@@ -3,6 +3,7 @@ package
 	import flash.display.Sprite;
 	import flash.events.Event;
 	
+	import victor.ExternalManager;
 	import victor.Global;
 	import victor.Main;
 	
@@ -38,6 +39,9 @@ package
 //			Global.isFronSNS = true;
 //			Global.snsUrl = "C:\\Users\\Administrator\\Desktop\\6862276_134908305332_2.jpg";
 //			Global.snsUrl = "http://img.adbox.sina.com.cn/pic/21716.jpg";
+//			Global.step = 2;
+			
+//			ExternalManager.addFuncForJs();
 			
 			addChild( new Main());
 		}

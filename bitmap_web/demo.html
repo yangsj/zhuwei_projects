@@ -25,7 +25,35 @@
 		    params.allowScriptAccess = "always";
 		    var attributes = { id: "mainflash" };
 		    swfobject.embedSWF("flash/main.swf?rd=" + getRandom(9999), "flashContent", "1200", "700", "11.0.0", "expressInstall.swf", flashvars, params, attributes);
-		    function getRandom(n) { return Math.floor(Math.random() * n + 1) }
+		    
+			function getRandom(n) { return Math.floor(Math.random() * n + 1) }
+
+			function selectsns()
+			{
+				alert("flash调用到js方法selectsns");
+
+				try
+				{
+					var flash = thisMovie("mainflash"); 
+					alert(flash);
+					var str = flash.selectimg();//"http://img.adbox.sina.com.cn/pic/21716.jpg"
+					alert("abc:" + str);
+				}
+				catch (e)
+				{
+					alert("error:" + e.name + " | " + e.description + " | number:" + e.number);
+				}
+			}
+
+			function thisMovie(movieName) 
+			{
+				if (navigator.appName.indexOf("Microsoft") != -1) {
+					return window[movieName]
+				}else{
+					return document[movieName]
+				}
+			}
+
             </script>
 </head>
 <body>

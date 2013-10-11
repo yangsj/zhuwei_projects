@@ -204,8 +204,6 @@ package victor.comp
 		public function setOldBitmap( bitmap:DisplayObject ):void
 		{
 			DisplayUtil.removeAll( _oldPic );
-//			bitmap.width = bitmap.width > DISPLAY_AREA.width ? DISPLAY_AREA.width : bitmap.width;
-//			bitmap.height = bitmap.height > DISPLAY_AREA.height ? DISPLAY_AREA.height : bitmap.height;
 			_oldPic.addChild( bitmap );
 		}
 		

@@ -32,7 +32,10 @@ package victor.event
 		 */
 		public static const CONFIRM_COMMIT:String = "confirm_commit";
 		
-		
+		/**
+		 * 从页面选择图片后调用flash派发（url）
+		 */
+		public static const SELECTED_IMG_FROM_HTML:String = "selected_img_from_html";
 		
 		public function get data():Object
 		{

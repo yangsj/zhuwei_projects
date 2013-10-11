@@ -34,8 +34,6 @@ package
 			addChild( mcLoaded );
 			
 			var url:String = getBaseUrl( stage.loaderInfo.url ) + "AppMain.swf?t=" + (new Date().time);
-			trace( url );
-			
 			loader = new Loader();
 			loader.contentLoaderInfo.addEventListener(Event.COMPLETE, onCompleteHandler );
 			loader.contentLoaderInfo.addEventListener(ProgressEvent.PROGRESS, progressHandler );
@@ -51,12 +49,12 @@ package
 		
 		protected function progressHandler(event:ProgressEvent):void
 		{
+			mcLoaded.txt.embedFonts = true;
 			mcLoaded.txt.text = int((event.bytesLoaded / event.bytesTotal ) * 100 ) + "";
 		}
 		
 		public function getBaseUrl(preurl : String) : String {
 			var swfUrl : String;
-			// var preurl : String = contextView.stage.loaderInfo.url;
 			preurl = preurl.replace(/\\/g, "/");
 			var lastslash : int = preurl.lastIndexOf("/");
 			swfUrl = preurl.substring(0, lastslash + 1);
