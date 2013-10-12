@@ -10,7 +10,7 @@ package victor
 		
 		public static function get isTest():Boolean
 		{
-			return true;
+			return false;
 		}
 		
 		private static var _snsUrl1:String = "";
