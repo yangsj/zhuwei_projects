@@ -26,19 +26,28 @@ package
 			appStage = stage;
 			//appStage.alpha = 0;
 			
-			var parameters:Object = stage.loaderInfo.parameters;
-			if ( parameters.hasOwnProperty( "pic" ) && parameters["pic"] )
-			{
-				Global.isFronSNS = true;
-				Global.snsUrl = parameters["pic"]; 
-				Global.step = int( parameters[ "step" ] );
-			}
-			
 			// test
 //			Global.isFronSNS = true;
-//			Global.snsUrl = "C:\\Users\\Administrator\\Desktop\\6862276_134908305332_2.jpg";
-//			Global.snsUrl = "http://img.adbox.sina.com.cn/pic/21716.jpg";
-//			Global.step = 2;
+//			Global.snsUrl1 = "http://img.adbox.sina.com.cn/pic/21716.jpg";
+//			Global.snsUrl2 = "http://sh.sinaimg.cn/iframe/489/2012/0627/U10201P18T489D1F14630DT20131011092708.jpg";
+//			Global.step = 0;
+			
+			var parameters:Object = stage.loaderInfo.parameters;
+			if ( parameters.hasOwnProperty( "step" ))
+			{
+				var step:int = int( parameters["step"] );
+				Global.isFronSNS = step > 0;
+				Global.step = step;
+				if ( step == 1 || step == 2 )
+				{
+					Global.snsUrl1 = parameters["pic"]; 
+				}
+				else if ( step == 3 )
+				{
+					Global.snsUrl1 = parameters["pic1"]; 
+					Global.snsUrl2 = parameters["pic2"]; 
+				}
+			}
 			
 			addChild( new Main());
 		}

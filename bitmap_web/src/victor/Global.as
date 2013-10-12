@@ -10,18 +10,29 @@ package victor
 		
 		public static function get isTest():Boolean
 		{
-			return false;
+			return true;
 		}
 		
-		private static var _snsUrl:String = "";
-		public static function get snsUrl():String
+		private static var _snsUrl1:String = "";
+		public static function get snsUrl1():String
 		{
-			return _snsUrl;
+			return _snsUrl1;
 		}
 		
-		public static function set snsUrl(value:String):void
+		public static function set snsUrl1(value:String):void
 		{
-			_snsUrl = value;
+			_snsUrl1 = value;
+		}
+		
+		private static var _snsUrl2:String = "";
+		public static function get snsUrl2():String
+		{
+			return _snsUrl2;
+		}
+		
+		public static function set snsUrl2(value:String):void
+		{
+			_snsUrl2 = value;
 		}
 		
 		private static var _isFronSNS:Boolean = false;

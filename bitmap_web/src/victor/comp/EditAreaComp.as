@@ -47,6 +47,8 @@ package victor.comp
 		private const DISPLAY_AREA:Rectangle = new Rectangle( 0, 0, 440, 284 );
 		private const MIN_YEAR:int = 1960;
 		private const MAX_YEAR:int = 2013;
+		private const DIFF_YEAR:int = MAX_YEAR - MIN_YEAR;
+		private const DEFAULT_YEAR:int = 2003;
 		private const AREA_SCROLL:Rectangle = new Rectangle(346, 452, 102, 0);
 		
 		private var currentYear:int = 2010;
@@ -102,6 +104,9 @@ package victor.comp
 			_bitmapTarget.addChild( desContainer );
 			
 			setYear();
+			
+			// 默认年份
+			_mcYear.x = Math.ceil(AREA_SCROLL.x + AREA_SCROLL.width * ((DEFAULT_YEAR - MIN_YEAR)/DIFF_YEAR));
 			
 			addListenr();
 		}
@@ -191,8 +196,7 @@ package victor.comp
 			}
 			else if ( type == MouseEvent.MOUSE_MOVE )
 			{
-				var diff:int = MAX_YEAR - MIN_YEAR;
-				var year:int = int((( _mcYear.x - AREA_SCROLL.x ) / AREA_SCROLL.width) * diff);
+				var year:int = int((( _mcYear.x - AREA_SCROLL.x ) / AREA_SCROLL.width) * DIFF_YEAR);
 				Global.currentYear = currentYear = MIN_YEAR + year;
 				_txtYear.htmlText = currentYear + "<font size=\"12\">年</font>";
 				_txtYear.embedFonts = true;

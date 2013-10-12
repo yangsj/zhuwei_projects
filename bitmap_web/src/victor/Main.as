@@ -44,14 +44,17 @@ package victor
 				if ( Global.step == 1 )
 				{
 					_container.addChild(_editAreaComp);
-					_editAreaComp.loadImageForSNS( Global.snsUrl );
+					_editAreaComp.loadImageForSNS( Global.snsUrl1 );
 				}
 				else if ( Global.step == 2 )
 				{
-					Global.commitFirstPicUrl = Global.snsUrl;
-					DisplayUtil.removeAll( _container );
-					_container.addChild( _uploadNowPicComp );
-					_uploadNowPicComp.loadImage( Global.snsUrl );
+					Global.commitFirstPicUrl = Global.snsUrl1;
+					displayUploadNowPicComp();
+				}
+				else if ( Global.step == 3 )
+				{
+					Global.commitFirstPicUrl = Global.snsUrl1;
+					displayMediaComp( Global.snsUrl2 );
 				}
 			}
 			else
@@ -62,7 +65,7 @@ package victor
 		
 		private function compareMediaCompFunc1():void
 		{
-			completeEditCompFunc2();
+			displayUploadNowPicComp();
 		}
 		
 		// 调用页面
@@ -77,7 +80,7 @@ package victor
 			navigateToURL(new URLRequest( url ),"_self");
 		}
 		
-		private function completeEditCompFunc2():void
+		private function displayUploadNowPicComp():void
 		{
 			// 上传近照，挑战新旧对比自己
 			DisplayUtil.removeAll( _container );
@@ -96,7 +99,7 @@ package victor
 			var url:String = "sharetosns2.php?pic1=" + Global.firstPicUrl + "&pic2=" + Global.secondPicUrl + "&year=" + Global.currentYear;
 			navigateToURL(new URLRequest( url ),"_self");
 		}
-		
+
 		private function oepnCamera():void
 		{
 			// 开启摄像头
@@ -110,6 +113,16 @@ package victor
 			
 			// 调用Js
 			ExternalManager.callHtmlSelectedImage();
+		}
+
+		private function displayMediaComp( data:* ):void
+		{
+			DisplayUtil.removeAll( _container );
+			_container.addChild(_mediaComp);
+			_mediaComp.loadOldImage( Global.commitFirstPicUrl );
+			if ( data is String )
+				_mediaComp.loadNewImage( data );
+			else _mediaComp.setNewBitmap( data );
 		}
 
 		private function addlistener():void
@@ -131,7 +144,7 @@ package victor
 		protected function confirmCommitHandler( event:AppEvent ):void
 		{
 			if ( Global.isTest )
-				completeEditCompFunc2(); // 临时本地测试
+				displayUploadNowPicComp(); // 临时本地测试
 			else
 				completeEditCompFunc1(); // 正式
 		}
@@ -146,10 +159,7 @@ package victor
 			var loader:DisplayObject = event.data as DisplayObject;
 			if ( _uploadNowPicComp.parent )
 			{
-				DisplayUtil.removeAll( _container );
-				_container.addChild(_mediaComp);
-				_mediaComp.loadOldImage( Global.commitFirstPicUrl );
-				_mediaComp.setNewBitmap( loader );
+				displayMediaComp( loader );
 			}
 			else if ( _mediaComp.parent )
 			{
