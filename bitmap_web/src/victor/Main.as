@@ -135,10 +135,12 @@ package victor
 		
 		protected function selectedImgFromHtml( event:AppEvent ):void
 		{
+			var ary:Array = event.data as Array;
+			Global.commitFirstPicUrl = ary[0];
 			DisplayUtil.removeAll( _container );
 			_container.addChild(_mediaComp);
 			_mediaComp.loadOldImage( Global.commitFirstPicUrl );
-			_mediaComp.loadNewImage( event.data as String );
+			_mediaComp.loadNewImage( ary[1] as String );
 		}
 
 		protected function confirmCommitHandler( event:AppEvent ):void

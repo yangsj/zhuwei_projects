@@ -35,10 +35,10 @@ package victor
 			}
 		}
 		
-		private static function selectimgFromSns( imgUrl:String ):void
+		private static function selectimgFromSns( imgUrl1:String, imgUrl2:String ):void
 		{
-			ExternalInterface.call( "alert", "JS成功调用Flash" + imgUrl );
-			Global.eventDispatcher.dispatchEvent( new AppEvent( AppEvent.SELECTED_IMG_FROM_HTML, imgUrl ));
+//			ExternalInterface.call( "alert", "JS成功调用Flash" + imgUrl );
+			Global.eventDispatcher.dispatchEvent( new AppEvent( AppEvent.SELECTED_IMG_FROM_HTML, [ imgUrl1, imgUrl2 ] ));
 		}
 		
 	}
