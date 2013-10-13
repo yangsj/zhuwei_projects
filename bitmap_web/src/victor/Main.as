@@ -72,7 +72,7 @@ package victor
 //				displayUploadNowPicComp();
 				
 				// 跳转首页
-				var url:String = "index.php?isshow=1";
+				var url:String = "index.php?s=action";
 				navigateToURL(new URLRequest( url ),"_self");
 			}
 		}

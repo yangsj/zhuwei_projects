@@ -3,6 +3,7 @@ package victor.comp
 	import com.greensock.TweenMax;
 	
 	import flash.display.BitmapData;
+	import flash.display.DisplayObject;
 	import flash.display.MovieClip;
 	import flash.display.SimpleButton;
 	import flash.display.Sprite;
@@ -24,7 +25,7 @@ package victor.comp
 	 */
 	public class WordsList extends Sprite
 	{
-		private const WORD_LIST:Array = ["的那天格外美好", "的那天心情杠杠", "的那天秋高气爽", "的那天阳光明媚"];
+		private const WORD_LIST:Array = ["回放那一年，年轻正飞扬", "回放那一年，微笑的脸庞", "回放那一年，青春的轮廓"];
 		
 		private var vecList:Vector.<MovieClip> = new Vector.<MovieClip>();
 		
@@ -40,7 +41,7 @@ package victor.comp
 		
 		public function WordsList()
 		{
-			x = 144;
+			x = 94;
 			y = 344;
 			
 			skin = new ui_Skin_WordList();
@@ -94,9 +95,9 @@ package victor.comp
 		{
 			if ( selectedItem )
 			{
-				var txt:TextField = selectedItem.txtLabel2;
+				var txt:DisplayObject = selectedItem.label;
 				var bitmapData:BitmapData = new BitmapData( txt.width, txt.height, true, 0 );
-				bitmapData.draw( txt, new Matrix(1,0,0,1,10,-6) );
+				bitmapData.draw( txt );//, new Matrix(1,0,0,1,10,-6) );
 				Global.eventDispatcher.dispatchEvent( new AppEvent( AppEvent.SELCTED_DES, bitmapData ));
 			}
 		}
@@ -156,9 +157,8 @@ package victor.comp
 		
 		private function setYearForItem( mc:MovieClip, year:int, des:String ):void
 		{
-			var txtYear:TextField = mc.getChildByName( "txtYear" ) as TextField;
 			var txtLabel1:TextField = mc.getChildByName( "txtLabel1" ) as TextField;
-			var txtLabel2:TextField = mc.getChildByName( "txtLabel2" ) as TextField;
+			var txtLabel2:TextField = mc.label.getChildByName( "txtLabel2" ) as TextField;
 			var text:String = year + des;//"<font size=\"17\" face=\"" + txtYear.defaultTextFormat.font + "\">" + year + "</font>" + des;
 			txtLabel1.embedFonts = true;
 			txtLabel2.embedFonts = true;

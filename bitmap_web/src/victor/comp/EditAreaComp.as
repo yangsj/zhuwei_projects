@@ -99,11 +99,6 @@ package victor.comp
 			_container.buttonMode = true;
 			_txtYear.mouseEnabled = false;
 			
-			desContainer = new Sprite();
-			desContainer.x = 144;
-			desContainer.y = 344;
-			_bitmapTarget.addChild( desContainer );
-			
 			setYear();
 			
 			// 默认年份
@@ -166,6 +161,11 @@ package victor.comp
 			
 			wordsList = new WordsList();
 			addChild( wordsList );
+			
+			desContainer = new Sprite();
+			desContainer.x = wordsList.x;
+			desContainer.y = wordsList.y;
+			_bitmapTarget.addChild( desContainer );
 			
 			mcYearMouseHandler( new MouseEvent(MouseEvent.MOUSE_MOVE));
 		}
