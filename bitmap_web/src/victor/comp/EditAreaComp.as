@@ -61,6 +61,7 @@ package victor.comp
 		
 		private var desContainer:Sprite;
 		private var wordsList:WordsList;
+		private var _isLocal:Boolean = false;
 		
 		public function EditAreaComp()
 		{
@@ -387,6 +388,17 @@ package victor.comp
 			var jpg:JPGEncoder = new JPGEncoder(80);
 			return jpg.encode( bitmapData );
 		}
+
+		public function get isLocal():Boolean
+		{
+			return _isLocal;
+		}
+
+		public function set isLocal(value:Boolean):void
+		{
+			_isLocal = value;
+		}
+
 		
 	}
 }

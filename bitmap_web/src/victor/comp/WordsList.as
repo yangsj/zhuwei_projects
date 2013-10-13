@@ -76,7 +76,7 @@ package victor.comp
 				vecList[ i ] = mc;
 			}
 			mc.line.visible = false;
-			listArea.scrollRect = new Rectangle(0,0,itemContainer.width, itemContainer.height );
+			listArea.scrollRect = new Rectangle(0,0,itemContainer.width + 20, itemContainer.height );
 			hideCompleted();
 			tabControl.setTargetByIndex( 0 );
 			itemContainer.graphics.beginFill( 0xffffff );

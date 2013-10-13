@@ -43,6 +43,7 @@ package victor
 				DisplayUtil.removeAll( _container );
 				if ( Global.step == 1 )
 				{
+					_editAreaComp.isLocal = false;
 					_container.addChild(_editAreaComp);
 					_editAreaComp.loadImageForSNS( Global.snsUrl1 );
 				}
@@ -59,22 +60,22 @@ package victor
 			}
 			else
 			{
+				_editAreaComp.isLocal = true;
 				_container.addChild( _selectdComp );
 			}
 		}
 		
 		private function compareMediaCompFunc1():void
 		{
-			if ( _mediaComp.isLocal )
-				_selectdComp.selectedImage();
-			else 
-			{
-//				displayUploadNowPicComp();
-				
-				// 跳转首页
-				var url:String = "index.php?s=action";
-				navigateToURL(new URLRequest( url ),"_self");
-			}
+			displayUploadNowPicComp();
+//			if ( _mediaComp.isLocal )
+//				_selectdComp.selectedImage();
+//			else 
+//			{
+//				// 跳转首页
+//				var url:String = "index.php?s=action";
+//				navigateToURL(new URLRequest( url ),"_self");
+//			}
 		}
 		
 		// 调用页面
@@ -162,7 +163,14 @@ package victor
 			
 		protected function selectedAgainHandler( event:AppEvent ):void
 		{
-			_selectdComp.selectedImage();
+			if ( _editAreaComp.parent && _editAreaComp.isLocal == false )
+			{
+				// 跳转首页
+				var url:String = "index.php?s=action";
+				navigateToURL(new URLRequest( url ),"_self");
+			}
+			else
+				_selectdComp.selectedImage();
 		}
 		
 		protected function selectedLoadCompleteHandler( event:AppEvent ):void

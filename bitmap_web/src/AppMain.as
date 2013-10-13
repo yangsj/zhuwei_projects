@@ -30,7 +30,7 @@ package
 //			Global.isFronSNS = true;
 //			Global.snsUrl1 = "http://img.adbox.sina.com.cn/pic/21716.jpg";
 //			Global.snsUrl2 = "http://sh.sinaimg.cn/iframe/489/2012/0627/U10201P18T489D1F14630DT20131011092708.jpg";
-//			Global.step = 0;
+//			Global.step = 1;
 			
 			var parameters:Object = stage.loaderInfo.parameters;
 			if ( parameters.hasOwnProperty( "step" ))
