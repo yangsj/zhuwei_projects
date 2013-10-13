@@ -13,6 +13,7 @@ package victor.comp
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.text.TextField;
 	import flash.utils.ByteArray;
@@ -113,7 +114,8 @@ package victor.comp
 		
 		public function loadImageForSNS(url:String):void
 		{
-			new LoadImage( url, setLoader );
+			var global:Point = _area.localToGlobal( Global.loadingLocalPos1 );
+			new LoadImage( url, setLoader, global );
 		}
 		
 		public function setLoader( display:DisplayObject ):void

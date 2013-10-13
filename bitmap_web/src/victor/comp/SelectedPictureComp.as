@@ -11,7 +11,6 @@ package victor.comp
 	import flash.net.FileReference;
 	
 	import victor.Global;
-	import victor.LoadImage;
 	import victor.event.AppEvent;
 	
 	public class SelectedPictureComp extends Sprite
@@ -36,7 +35,7 @@ package victor.comp
 		
 		public function selectedImage():void
 		{
-			_fileReference = new FileReference();
+			_fileReference ||= new FileReference();
 			_fileReference.addEventListener(Event.COMPLETE, completeHandler );
 			_fileReference.addEventListener(Event.SELECT, selectedHandler );
 			_fileReference.addEventListener(Event.CANCEL, cancelHandler );

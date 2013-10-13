@@ -1,6 +1,7 @@
 package victor
 {
 	import flash.events.EventDispatcher;
+	import flash.geom.Point;
 
 	public class Global
 	{
@@ -11,6 +12,16 @@ package victor
 		public static function get isTest():Boolean
 		{
 			return false;
+		}
+		
+		public static function get loadingLocalPos1():Point
+		{
+			return new Point( 220, 142 );
+		}
+		
+		public static function get loadingLocalPos2():Point
+		{
+			return new Point( 260, 181 );
 		}
 		
 		private static var _snsUrl1:String = "";

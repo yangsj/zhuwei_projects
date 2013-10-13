@@ -39,6 +39,9 @@ package
 			mcLoaded.y = stage.stageHeight >> 1;
 			addChild( mcLoaded );
 			
+			mcLoaded.txt.embedFonts = true;
+			mcLoaded.txt.text = "0";
+			
 			var url:String = getBaseUrl( stage.loaderInfo.url ) + "AppMain.swf?t=" + (new Date().time);
 			loader = new Loader();
 			loader.contentLoaderInfo.addEventListener(Event.COMPLETE, onCompleteHandler );

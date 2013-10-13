@@ -4,9 +4,11 @@ package victor.comp
 	import flash.display.SimpleButton;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
+	import flash.geom.Point;
 	import flash.text.TextField;
 	
 	import victor.DisplayUtil;
+	import victor.Global;
 	import victor.LoadImage;
 	
 	public class UploadNowPicComp extends Sprite
@@ -40,7 +42,8 @@ package victor.comp
 		
 		public function loadImage( url:String ):void
 		{
-			new LoadImage( url, setBitmap );
+			var pos:Point = area.localToGlobal( Global.loadingLocalPos2 );
+			new LoadImage( url, setBitmap, pos );
 		}
 		
 		public function setBitmap( bitmap:DisplayObject ):void

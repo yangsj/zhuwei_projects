@@ -10,6 +10,14 @@ package victor
 		{
 		}
 		
+		public static function jsAlert( des:String ):void
+		{
+			if ( ExternalInterface.available )
+			{
+				ExternalInterface.call( "alert", des );
+			}
+		}
+		
 		public static function callHtmlSelectedImage():void
 		{
 			if ( ExternalInterface.available )

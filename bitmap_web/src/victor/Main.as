@@ -65,7 +65,16 @@ package victor
 		
 		private function compareMediaCompFunc1():void
 		{
-			displayUploadNowPicComp();
+			if ( _mediaComp.isLocal )
+				_selectdComp.selectedImage();
+			else 
+			{
+//				displayUploadNowPicComp();
+				
+				// 跳转首页
+				var url:String = "index.php?isshow=1";
+				navigateToURL(new URLRequest( url ),"_self");
+			}
 		}
 		
 		// 调用页面
@@ -119,7 +128,7 @@ package victor
 		{
 			DisplayUtil.removeAll( _container );
 			_container.addChild(_mediaComp);
-			_mediaComp.loadOldImage( Global.commitFirstPicUrl );
+			_mediaComp.loadOldImage( Global.commitFirstPicUrl, true );
 			if ( data is String )
 				_mediaComp.loadNewImage( data );
 			else _mediaComp.setNewBitmap( data );
@@ -139,7 +148,7 @@ package victor
 			Global.commitFirstPicUrl = ary[0];
 			DisplayUtil.removeAll( _container );
 			_container.addChild(_mediaComp);
-			_mediaComp.loadOldImage( Global.commitFirstPicUrl );
+			_mediaComp.loadOldImage( Global.commitFirstPicUrl, false );
 			_mediaComp.loadNewImage( ary[1] as String );
 		}
 

@@ -13,6 +13,7 @@ package victor.comp
 	import flash.events.ActivityEvent;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.media.Camera;
 	import flash.media.Video;
@@ -49,7 +50,7 @@ package victor.comp
 		
 		private var _btnBack:SimpleButton;
 		private var _btnCompare:SimpleButton;
-		
+		private var _isLocal:Boolean;
 		
 		private var _endRotation:Number = 0;
 		private var _endScale:Number = 1;
@@ -191,17 +192,21 @@ package victor.comp
 			}
 		}
 		
-		public function loadOldImage( url:String ):void
+		public function loadOldImage( url:String, isLocal:Boolean = false ):void
 		{
-			new LoadImage( url, setOldBitmap );
+			_isLocal = isLocal;
+			var pos:Point = _oldPic.localToGlobal( Global.loadingLocalPos2 );
+			new LoadImage( url, setOldBitmap, pos );
 		}
 		
 		public function loadNewImage( url:String ):void
 		{
-			new LoadImage( url, setNewBitmap );
+			_isLocal = false;
+			var pos:Point = _area.localToGlobal( Global.loadingLocalPos1 );
+			new LoadImage( url, setNewBitmap, pos );
 		}
 		
-		public function setOldBitmap( bitmap:DisplayObject ):void
+		private function setOldBitmap( bitmap:DisplayObject ):void
 		{
 			DisplayUtil.removeAll( _oldPic );
 			_oldPic.addChild( bitmap );
@@ -347,6 +352,12 @@ package victor.comp
 			TweenMax.killTweensOf( _newPic );
 			TweenMax.to( _newPic, 0.4, {rotation: _endRotation });
 		}
+
+		public function get isLocal():Boolean
+		{
+			return _isLocal;
+		}
+
 		
 	}
 }
