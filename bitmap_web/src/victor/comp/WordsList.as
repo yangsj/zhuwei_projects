@@ -9,7 +9,6 @@ package victor.comp
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
 	import flash.filters.DropShadowFilter;
-	import flash.geom.Matrix;
 	import flash.geom.Rectangle;
 	import flash.text.TextField;
 	
@@ -55,7 +54,7 @@ package victor.comp
 			btn = skin.btn;
 			btn.addEventListener( MouseEvent.CLICK, onClickHandler );
 			
-			addEventListener( MouseEvent.CLICK, onThisHandler );
+//			addEventListener( MouseEvent.CLICK, onThisHandler );
 			
 			intiList();
 			
@@ -102,10 +101,10 @@ package victor.comp
 			}
 		}
 		
-		protected function onThisHandler(event:MouseEvent):void
-		{
-			event.stopPropagation();
-		}
+//		protected function onThisHandler(event:MouseEvent):void
+//		{
+//			event.stopPropagation();
+//		}
 		
 		protected function onClickHandler( event:MouseEvent ):void
 		{
