@@ -49,5 +49,13 @@ package victor
 			Global.eventDispatcher.dispatchEvent( new AppEvent( AppEvent.SELECTED_IMG_FROM_HTML, [ imgUrl1, imgUrl2 ] ));
 		}
 		
+		public static function flashTrace( num:int ):void
+		{
+			if ( ExternalInterface.available )
+			{
+				ExternalInterface.call( "flashtracking", num );
+			}
+		}
+		
 	}
 }

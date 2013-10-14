@@ -22,6 +22,7 @@ package victor.comp
 	
 	import victor.AppMouse;
 	import victor.DisplayUtil;
+	import victor.ExternalManager;
 	import victor.Global;
 	import victor.LoadImage;
 	import victor.SaveImage;
@@ -108,10 +109,14 @@ package victor.comp
 		protected function onBackHandler(event:MouseEvent):void
 		{
 			openLocal();
+			
+			ExternalManager.flashTrace( 22 );
 		}
 		
 		protected function onCompareHandler(event:MouseEvent):void
 		{
+			ExternalManager.flashTrace( 23 );
+			
 			_btnCompare.mouseEnabled = false;
 			AppMouse.show();
 			new SaveImage( imgByte, callBack );

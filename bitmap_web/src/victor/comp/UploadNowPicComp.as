@@ -8,6 +8,7 @@ package victor.comp
 	import flash.text.TextField;
 	
 	import victor.DisplayUtil;
+	import victor.ExternalManager;
 	import victor.Global;
 	import victor.LoadImage;
 	
@@ -61,11 +62,15 @@ package victor.comp
 		protected function btnLocalHandler(event:MouseEvent):void
 		{
 			openLocal();
+			
+			ExternalManager.flashTrace( 21 );
 		}
 		
 		protected function btnCameraHandler(event:MouseEvent):void
 		{
 			openCamera();
+			
+			ExternalManager.flashTrace( 20 );
 		}
 	}
 }

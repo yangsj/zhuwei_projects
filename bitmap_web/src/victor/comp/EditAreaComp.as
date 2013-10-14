@@ -20,6 +20,7 @@ package victor.comp
 	
 	import victor.AppMouse;
 	import victor.DisplayUtil;
+	import victor.ExternalManager;
 	import victor.Global;
 	import victor.LoadImage;
 	import victor.SaveImage;
@@ -310,6 +311,8 @@ package victor.comp
 		protected function onAgainHandler(event:MouseEvent):void
 		{
 			Global.eventDispatcher.dispatchEvent(new AppEvent( AppEvent.SELECTED_AGAIN ));
+			
+			ExternalManager.flashTrace( 13 );
 		}
 		
 		protected function onCommitHandler(event:MouseEvent = null):void
@@ -317,6 +320,8 @@ package victor.comp
 			mouseChildren = false;
 			AppMouse.show();
 			new SaveImage( imgByte, loadComplete );
+			
+			ExternalManager.flashTrace( 14 );
 		}
 		
 		protected function loadComplete( picUrl:String ):void

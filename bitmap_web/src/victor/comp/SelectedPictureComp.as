@@ -10,6 +10,7 @@ package victor.comp
 	import flash.net.FileFilter;
 	import flash.net.FileReference;
 	
+	import victor.ExternalManager;
 	import victor.Global;
 	import victor.event.AppEvent;
 	
@@ -52,6 +53,8 @@ package victor.comp
 		protected function onClickhandler(event:MouseEvent):void
 		{
 			selectedImage();
+			
+			ExternalManager.flashTrace( 12 );
 		}
 		
 		protected function completeHandler(event:Event):void
