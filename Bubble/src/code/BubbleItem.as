@@ -47,7 +47,7 @@ package code
 			
 			_startX = _skin.x;
 			_startY = _skin.y;
-			_moveArea = new Rectangle( _startX, _startY - 10, 0, 20 );
+			_moveArea = new Rectangle( _startX, _startY - 5, 0, 10 );
 //			
 			_txtName0 = _skin.getChildByName( "txtName0" ) as TextField;
 			_txtName1 = _skin.getChildByName( "txtName1" ) as TextField;
