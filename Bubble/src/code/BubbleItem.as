@@ -169,7 +169,7 @@ package code
 			{
 				stopShake();
 				_speedy *= (Math.random() < 0.5 ? 1 : -1);
-				TickManager.doInterval( intervalMove, 200 );
+				TickManager.doInterval( intervalMove, 300 );
 			}
 		}
 		
