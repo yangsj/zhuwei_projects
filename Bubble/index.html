@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -11,6 +11,8 @@
 <script type="text/javascript">
     var params = {};
     var flashvars = {};
+    flashvars.picUrl = "http://img.bimg.126.net/photo/xNCcQiMrr5cazwVy5plOsQ==/6597104951028273718.jpg";
+    flashvars.playerName = "可乐";
     var rd = getRandom(9999);
 
     params.quality = "high";
@@ -21,13 +23,13 @@
     params.devicefont = "false";
     params.allowScriptAccess = "always";
     var attributes = { id: "flashContent" };
-    swfobject.embedSWF("bin/Main.swf?rd=" + rd, "flashContent", "1280", "760", "11.0.0", "expressInstall.swf", flashvars, params, attributes);
+    swfobject.embedSWF("bin/main.swf?rd=" + rd, "flashContent", "1280", "700", "11.0.0", "expressInstall.swf", flashvars, params, attributes);
     function getRandom(n) { return Math.floor(Math.random() * n + 1) }
 
 </script>
 </head>
 
-<body class="mbg">
+<body class="mbgstep1">
     <div class="wrap">
        <div class="head">
 		<ul class="menu">
