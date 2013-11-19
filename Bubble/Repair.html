@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="js/swfobject.js"></script>
+<script type="text/javascript" src="js/jquery.slides.js"></script>
+<link href="css/ysld11.css" rel="stylesheet" type="text/css" />
+
+<title>KOL微修护</title>
+</head>
+
+<body class="mbg_video">
+    <div class="wrap">
+       <div class="head clfix">
+		<ul class="menu">
+			<li ><a class="on" href="#">首页</a></li>
+			<li ><a href="#">原生如初微电影</a></li>
+			<li ><a href="#">我的微修护 </a></li>
+			<li ><a href="#">新突破微精华 </a></li>
+			<li ><a href="#">达人体验 </a></li>
+            <li ><a href="#">活动规则 </a></li>
+			<li ><a href="#" class="shop"></a></li>
+		</ul>
+	   </div>
+       <div class="video_con">
+           <div class="share-slide sl2">
+                    <div class="video_fx"><span class="video_fx_s2"></span><span>分享到：</span><a class="fx_sina" href="#"></a><a class="fx_rr" href="#"></a><a class="fx_qq" href="#"></a></div>
+					<div class="r-p1 slrp2"><a class="on"  data-page="0">兰玉</a><a data-page="1">安意如</a><a data-page="2">杨子珊</a><a data-page="3">吉承</a></div>
+					<div class="slide-box sb2">
+						<div class="r-con"><img src="images/index_29.jpg" /></div>
+						<div class="r-con"><img src="images/index_30.jpg" /></div>
+						<div class="r-con"><img src="images/index_31.jpg" /></div>
+                        <div class="r-con"><img src="images/index_32.jpg" /></div>
+					</div>		
+
+			</div>
+           <div class="video_c_fd clfix">
+               <span class="video_cfd_s on">喜欢</span><a class="video_cfd_a ml" href="#"></a>
+               <div class="video_cfd_d2">
+                   <div class="video_cfd_font">
+                      全新&nbsp;&nbsp;雅诗兰黛<br />肌初赋活原生液 150ml
+                   </div>
+                   <div class="video_cfd_btn">
+                      <!--<a class="incon2_lb_a1" href="#"></a>-->
+                      <a class="incon2_lb_a2" href="#"></a>
+                   </div>
+               </div>
+           </div>
+       </div>
+    </div>
+
+</body>
+<script type="text/javascript">
+<!--
+	$(function(){
+		var common = {
+			sw : ($(document).width()>$(window).width())?$(document).width():$(window).width(),
+			sh : ($(document).height()>$(window).height())?$(document).height():$(window).height(),
+			showpop : function(o){
+				common.showopobg(o);
+				$(o).css({
+					'left' : (common.sw - $(o).width())/2,
+					'top'  : (common.sh - $(o).height())/2
+				}).show();
+			},
+			hidepop : function(o){
+				common.hideopobg(o);
+				$(o).hide();
+			},
+			showopobg : function(o){
+				if($('.pop-bg').length){
+					$('.pop-bg').css({
+						'width' : common.sw,
+						'height': common.sh
+					}).show();
+				}else{
+					$('<div/>').addClass('pop-bg').css({
+						'width' : common.sw,
+						'height': common.sh
+					}).insertBefore($(o));
+				}
+			},
+			hideopobg : function(){
+				$('.pop-bg').hide();
+			},
+			resize : function(o){
+				$('.pop-bg').css({
+					'width' : common.sw,
+					'height': common.sh
+				});
+				$(o).css({
+					'left' : (common.sw - $(o).width())/2,
+					'top'  : (common.sh - $(o).height())/2
+				});
+			}
+		}
+		$('.slide-box').slidesjs({
+			width: 788,
+			height: 443
+		});
+		var count = 0;
+		var haveadd = new Array();
+		$('.add').bind('click',function(){
+			if($('.friends').val()!=0){
+				var same = 0;
+				for(var i=0;i<haveadd.length;i++){
+					if($('.friends').val() == haveadd[i]){
+						same = 1;
+					};
+				}
+				if(!same&&count<3){
+					haveadd.push($('.friends').val());
+					var oldstr = $(".wbtext").val();
+					$(".wbtext").val(oldstr+' '+"@"+$('.friends').val());
+					count++;
+				}else if(count>=3){
+					alert('分享数为最多为三个');
+				}
+			}
+		});
+		var authstat = 1;
+		authstat?common.hidepop('.pop-a'):common.showpop('.pop-a');
+
+	})
+//-->
+</script>
+</html>

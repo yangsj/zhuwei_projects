@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="js/swfobject.js"></script>
+<script type="text/javascript" src="js/jquery.slides.js"></script>
+<link href="css/ysld11.css" rel="stylesheet" type="text/css" />
+
+<title>加载页</title>
+<script type="text/javascript">
+    var params = {};
+    var flashvars = {};
+    var rd = getRandom(9999);
+
+    params.quality = "high";
+    params.wmode = "transparent";
+    params.play = "true";
+    params.loop = "true";
+    params.scale = "noscale";
+    params.devicefont = "false";
+    params.allowScriptAccess = "always";
+    var attributes = { id: "flashContent" };
+    swfobject.embedSWF("bin/Main.swf?rd=" + rd, "flashContent", "1280", "760", "11.0.0", "expressInstall.swf", flashvars, params, attributes);
+    function getRandom(n) { return Math.floor(Math.random() * n + 1) }
+
+</script>
+</head>
+
+<body class="mbg">
+    <div class="wrap">
+       <div class="head">
+		<ul class="menu">
+			<li ><a class="on" href="#">首页</a></li>
+			<li ><a href="#">原生如初微电影</a></li>
+			<li ><a href="#">我的微修护 </a></li>
+			<li ><a href="#">新突破微精华 </a></li>
+			<li ><a href="#">达人体验 </a></li>
+            <li ><a href="#">活动规则 </a></li>
+			<li ><a href="#" class="shop"></a></li>
+		</ul>
+	   </div>
+       <div class="flash" id="flashContent"></div>
+
+    </div>
+
+</body>
+</html>
