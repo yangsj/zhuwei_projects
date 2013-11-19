@@ -142,7 +142,7 @@ package code
 		{
 			frame = _selected ? LAB_GRAY : frame;
 			_skin.gotoAndStop( frame );
-			DisplayUtil.stopAllMovieClips( _skin );
+//			DisplayUtil.stopAllMovieClips( _skin );
 		}
 		
 		private function intervalMove():void
@@ -169,7 +169,7 @@ package code
 			{
 				stopShake();
 				_speedy *= (Math.random() < 0.5 ? 1 : -1);
-				TickManager.doInterval( intervalMove, 120 );
+				TickManager.doInterval( intervalMove, 200 );
 			}
 		}
 		

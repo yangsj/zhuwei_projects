@@ -85,7 +85,7 @@ package code
 		protected function btnCommitOnClickHandler(event:MouseEvent):void
 		{
 			trace("提交"); // step2.php?t=
-			var reqUrl:String = "step2.php?t="+_data.id;
+			var reqUrl:String = "step3.php?t="+_data.id;
 			navigateToURL(new URLRequest( reqUrl ),"_self");
 		}
 		
@@ -99,7 +99,7 @@ package code
 			_data = data;
 			_btnCommit.visible = true;
 			_skin.gotoAndStop( LAB_YES );
-			DisplayUtil.stopAllMovieClips( _skin );
+//			DisplayUtil.stopAllMovieClips( _skin );
 			
 //			_txtLab0.visible = true;
 //			_txtLab1.visible = true;
