@@ -51,6 +51,31 @@
 			}
 		}
 		
+		public static function stopAllMovieClips( target:DisplayObjectContainer ):void
+		{
+			if ( target )
+			{
+				if ( target.hasOwnProperty( "stopAllMovieClips" )) {
+					target["stopAllMovieClips"]();
+				}
+				else
+				{
+					if ( target is MovieClip ) {
+						( target as MovieClip ).stop();
+					}
+					
+					var numChildren:int = target.numChildren;
+					for (var i:int = 0; i < numChildren; i++) {
+						var dis:DisplayObject = target.getChildAt( i );
+						if ( dis is DisplayObjectContainer )
+						{
+							stopAllMovieClips( dis as DisplayObjectContainer );
+						}
+					}
+					
+				}
+			}
+		}
 		
 
 	}

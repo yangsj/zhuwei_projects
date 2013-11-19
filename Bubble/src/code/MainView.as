@@ -2,7 +2,7 @@ package code
 {
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
-	import flash.text.TextField;
+	import flash.events.Event;
 	
 	/**
 	 * ……
@@ -21,15 +21,98 @@ package code
 		public function MainView()
 		{
 			super();
-//			addChild( new ui_Skin_Background() );
+			
 			addChild( mainViewSkin ||= new ui_Skin_MainView() );
+			mainViewSkin.addEventListener(Event.ENTER_FRAME, enterFrameHandler );
 			
-			initData();
-			initItems();
 			initCenter();
-			
+			initData();
+			initNames();
+			addListeners();
+		}
+		
+		protected function enterFrameHandler(event:Event):void
+		{
+			if ( mainViewSkin.currentFrame == mainViewSkin.totalFrames ) 
+			{
+				mainViewSkin.removeEventListener(Event.ENTER_FRAME, enterFrameHandler );
+				initItems();
+			}
+		}
+		
+		private function initData():void
+		{
+			var xmlList:XMLList = AppConfig.configXML.children();
+			var itemVo:ItemVo;
+			for each ( var xml:XML in xmlList )
+			{
+				itemVo = new ItemVo();
+				itemVo.id = xml.@id;
+				itemVo.lab1 = xml.@labName0;
+				itemVo.lab2 = xml.@labName1;
+				vecItemsVo.push( itemVo );
+			}
+		}
+		
+		private function initNames():void
+		{
+			var arrow:MovieClip;
+			var mcSkin:MovieClip;
+			var item:BubbleItem;
+			var itemVo:ItemVo;
+			for ( var i:int = 0; i < 8; i++ )
+			{
+				itemVo = vecItemsVo[i];
+				mcSkin = mainViewSkin.getChildByName( "item" + i ) as MovieClip;
+				arrow = mainViewSkin.getChildByName( "arrow" + i ) as MovieClip;
+				if ( mcSkin ) {
+					mcSkin.gotoAndStop( 1 );
+					mcSkin.txtName0.text = itemVo.lab1;
+					mcSkin.txtName1.text = itemVo.lab2;
+				}
+				if ( arrow ) arrow.visible = false;
+			}
+		}
+		
+		private function initItems():void
+		{
+			var arrow:MovieClip;
+			var mcSkin:MovieClip;
+			var item:BubbleItem;
+			for ( var i:int = 0; i < 8; i++ )
+			{
+				mcSkin = mainViewSkin.getChildByName( "item" + i ) as MovieClip;
+				arrow = mainViewSkin.getChildByName( "arrow" + i ) as MovieClip;
+				if ( mcSkin && arrow )
+				{
+					mcSkin.alpha = 1;
+					item = new BubbleItem( mcSkin, arrow );
+					item.setData( vecItemsVo[ i ] );
+					vecItems.push( item );
+				}
+			}
+		}
+		
+		private function initCenter():void
+		{
+			var skinCenter:MovieClip = mainViewSkin.getChildByName("skinCenter") as MovieClip;
+			bubbleCenter = new BubbleCenter( skinCenter );
+		}
+		
+		private function addListeners():void
+		{
 			addEventListener( GEvent.DRAG_START, dragStartHandler );
 			addEventListener( GEvent.DRAG_COMPLETE, dragSuccessedHandler ); 
+		}
+		
+		private function setItemEnabled( enbled:Boolean, isSelected:Boolean = false, step:int = 1 ):void
+		{
+			for each ( var item:BubbleItem in vecItems )
+			{
+				item.mouseEnabled = enbled;
+				item.setArrow( false );
+				if ( step == 2 ) item.selected = true;
+			}
 		}
 		
 		protected function dragStartHandler(event:GEvent):void
@@ -55,52 +138,6 @@ package code
 			}
 			
 			setItemEnabled( true, isSuccessed, isSuccessed ? 2 : 1 );
-		}
-		
-		private function setItemEnabled( enbled:Boolean, isSelected:Boolean = false, step:int = 1 ):void
-		{
-			for each ( var item:BubbleItem in vecItems )
-			{
-				item.mouseEnabled = enbled;
-				item.setArrow( false );
-				if ( step == 2 )item.selected = true;
-			}
-		}
-		
-		private function initCenter():void
-		{
-			bubbleCenter = new BubbleCenter( mainViewSkin.getChildByName("skinCenter") as MovieClip );
-		}
-		
-		private function initItems():void
-		{
-			var arrow:MovieClip;
-			var mcSkin:MovieClip;
-			var item:BubbleItem;
-			for ( var i:int = 0; i < 8; i++ )
-			{
-				mcSkin = mainViewSkin.getChildByName( "item" + i ) as MovieClip;
-				arrow = mainViewSkin.getChildByName( "arrow" + i ) as MovieClip;
-				if ( mcSkin && arrow )
-				{
-					item = new BubbleItem( mcSkin, arrow );
-					item.setData( vecItemsVo[ i ] );
-					vecItems.push( item );
-				}
-			}
-		}
-		
-		private function initData():void
-		{
-			var xmlList:XMLList = AppConfig.configXML.children();
-			for each ( var xml:XML in xmlList )
-			{
-				var itemVo:ItemVo = new ItemVo();
-				itemVo.id = xml.@id;
-				itemVo.lab1 = xml.@labName0;
-				itemVo.lab2 = xml.@labName1;
-				vecItemsVo.push( itemVo );
-			}
 		}
 		
 	}

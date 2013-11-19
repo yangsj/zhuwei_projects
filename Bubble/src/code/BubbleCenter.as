@@ -23,6 +23,7 @@ package code
 		private var _txtName:TextField;
 		private var _txtLab0:TextField;
 		private var _txtLab1:TextField;
+		private var _txtDes:TextField;
 		private var _picContainer:Sprite;
 		private var _mcArea:Sprite;
 		
@@ -35,9 +36,12 @@ package code
 		{
 			_skin = skin;
 			
+			DisplayUtil.stopAllMovieClips( skin );
+			
 			_txtName = _skin.getChildByName( "txtName" ) as TextField;
 			_txtLab0 = _skin.getChildByName( "txtLab0" ) as TextField;
 			_txtLab1 = _skin.getChildByName( "txtLab1" ) as TextField;
+			_txtDes = _skin.getChildByName( "txtDes" ) as TextField;
 			_picContainer = _skin.getChildByName( "picContainer" ) as Sprite || new Sprite(); 
 			_btnCommit = _skin.getChildByName( "btnCommit" ) as InteractiveObject;
 			_mcArea = _skin.getChildByName( "mcArea" ) as Sprite || new Sprite(); 
@@ -46,6 +50,7 @@ package code
 			_mcArea.addEventListener(MouseEvent.MOUSE_UP, mouseHandler, false, int.MAX_VALUE );
 			_btnCommit.addEventListener(MouseEvent.MOUSE_UP, mouseHandler, false, int.MAX_VALUE );
 			
+			_txtDes.visible = false;
 			_txtLab0.visible = false;
 			_txtLab1.visible = false;
 			_btnCommit.visible = false;
@@ -92,14 +97,23 @@ package code
 		public function setData( data:ItemVo ):void
 		{
 			_data = data;
-			_txtLab0.visible = true;
-			_txtLab1.visible = true;
 			_btnCommit.visible = true;
 			_skin.gotoAndStop( LAB_YES );
+			DisplayUtil.stopAllMovieClips( _skin );
 			
-			_txtLab0.text = data.lab1;
-			_txtLab1.text = data.lab2;
+//			_txtLab0.visible = true;
+//			_txtLab1.visible = true;
+//			_txtLab0.text = data.lab1;
+//			_txtLab1.text = data.lab2;
 			
+			_txtDes.visible = true;
+			_txtDes.htmlText = desString;
+		}
+		
+		private function get desString():String
+		{
+			var string:String = "假使能回到如初之美，<br>我想要 " + HtmlText.unline(HtmlText.color(_data.lab1, 0xFF9933)) + " 的肌肤<br>重现最初 "+ HtmlText.unline(HtmlText.color(_data.lab2, 0xFF9933)) + " 的那个自我";
+			return string;
 		}
 		
 		

@@ -23,7 +23,6 @@ package code
 		private var _txtName0:TextField;
 		private var _txtName1:TextField;
 		private var _mcArrow:Sprite;
-		private var _mcWord:Sprite;
 		private var _mcArea:Sprite;
 		
 		private var _selected:Boolean = false;
@@ -33,7 +32,7 @@ package code
 		private var _isSuccessed:Boolean;
 		private var _isMouseDown:Boolean;
 		private var _isMouseMove:Boolean;
-		
+		private var _speedy:Number = 1;
 		private var _moveArea:Rectangle;
 		private var _moveId:int;
 		
@@ -45,35 +44,27 @@ package code
 		{
 			_skin = skin;
 			_skin.mouseEnabled = false;
-			_skin.cacheAsBitmap = true;
-			
-			_txtName0 = _skin.getChildByName( "txtName0" ) as TextField;
-			_txtName1 = _skin.getChildByName( "txtName1" ) as TextField;
-			_mcArea = _skin.getChildByName( "mcArea" ) as Sprite;
-			_mcArrow = arrow;//_skin.getChildByName( "mcArrow" ) as Sprite;
-//			_mcWord = _skin.getChildByName( "mcWord" ) as Sprite;
-			_mcWord ||= new Sprite();
-			
-//			_txtName0 = TextUtil.cloneText( _txtName0 );
-//			_txtName1 = TextUtil.cloneText( _txtName1 );
-			
-			_mcArea.buttonMode = true;
 			
 			_startX = _skin.x;
 			_startY = _skin.y;
-			_moveArea = new Rectangle( _startX - .5, _startY - 7.5, 15, 15 );
-			startShake();
+			_moveArea = new Rectangle( _startX, _startY - 10, 0, 20 );
+//			
+			_txtName0 = _skin.getChildByName( "txtName0" ) as TextField;
+			_txtName1 = _skin.getChildByName( "txtName1" ) as TextField;
 			
+			_mcArrow = arrow;
 			_mcArrow.mouseChildren = false;
 			_mcArrow.mouseEnabled = false;
 			
+			_mcArea = _skin.getChildByName( "mcArea" ) as Sprite;
+			_mcArea.buttonMode = true;
 			_mcArea.addEventListener(MouseEvent.MOUSE_OVER, mouseHandler );
 			_mcArea.addEventListener( MouseEvent.MOUSE_OUT, mouseHandler );
 			_mcArea.addEventListener(MouseEvent.MOUSE_DOWN, mouseHandler );
 			
-			_mcArea.dispatchEvent( new MouseEvent( MouseEvent.MOUSE_OUT ));
 			setArrow( false );
-//			moveToStart( false );
+			setFrame( LAB_MOUSE_OUT );
+			startShake();
 		}
 		
 		protected function mouseHandler(event:MouseEvent):void
@@ -86,16 +77,15 @@ package code
 					AppConfig.eventDispatcher.addEventListener(GEvent.DRAG_SUCCESSED, dragSuccessedHandler );
 					appStage.addEventListener(MouseEvent.MOUSE_UP,   mouseHandler );
 					appStage.addEventListener(MouseEvent.MOUSE_MOVE, mouseHandler );
+					_skin.dispatchEvent( new GEvent( GEvent.DRAG_START, this, true ));
 					_skin.parent.setChildIndex( _skin, _skin.parent.numChildren - 9 );
 					_skin.startDrag();
 					_isSuccessed = false;
 					_isMouseMove = false;
 					_isMouseDown = true;
-					_skin.dispatchEvent( new GEvent( GEvent.DRAG_START, this, true ));
 					stopShake();
 					break;
 				case MouseEvent.MOUSE_UP:
-					_skin.stopDrag();
 					mouseUpComplete();
 					break;
 				case MouseEvent.MOUSE_OVER:
@@ -120,11 +110,16 @@ package code
 				if ( _isSuccessed == false ) moveToStart();
 				
 				_skin.dispatchEvent( new GEvent( GEvent.DRAG_COMPLETE, [_isSuccessed, this ], true ));
+				
+				appStage.removeEventListener( MouseEvent.MOUSE_UP,   mouseHandler );
+				appStage.removeEventListener( MouseEvent.MOUSE_MOVE, mouseHandler );
 			}
-			startShake();
+			_skin.stopDrag();
 			_isMouseDown = false;
 			_isMouseMove = false;
 			_isSuccessed = false;
+			
+			startShake();
 		}
 		
 		protected function dragSuccessedHandler(event:Event):void
@@ -147,16 +142,14 @@ package code
 		{
 			frame = _selected ? LAB_GRAY : frame;
 			_skin.gotoAndStop( frame );
+			DisplayUtil.stopAllMovieClips( _skin );
 		}
 		
-		private var speedy:Number = 1;
-		private var direcy:int = 1;
 		private function intervalMove():void
 		{
-			_skin.y += speedy;
-			if ( !isAtRange( _skin.y, _moveArea.y, _moveArea.y + _moveArea.height ) )
-			{
-				calculateDirec();
+			_skin.y += _speedy;
+			if ( !isAtRange( _skin.y, _moveArea.y, _moveArea.y + _moveArea.height ) ){
+				_speedy *= -1;
 			}
 		}
 		
@@ -165,16 +158,9 @@ package code
 			return value > min && value < max;
 		}
 		
-		private function calculateDirec():void
-		{
-			direcy *= -1;
-			speedy *= direcy;
-		}
-		
 		public function setArrow( visible:Boolean ):void
 		{
 			_mcArrow.visible = visible;
-			_mcWord.visible = visible;
 		}
 		
 		public function startShake():void
@@ -182,9 +168,8 @@ package code
 			if ( _selected == false )
 			{
 				stopShake();
-				direcy = (Math.random() < 0.5 ? 1 : -1);
-				calculateDirec();
-				TickManager.doInterval( intervalMove, 180 );
+				_speedy *= (Math.random() < 0.5 ? 1 : -1);
+				TickManager.doInterval( intervalMove, 120 );
 			}
 		}
 		
@@ -276,8 +261,13 @@ package code
 		
 		public function set mouseEnabled( value:Boolean ):void
 		{
-			_mcArea.mouseEnabled = value;
-			_mcArea.buttonMode = value;
+//			_mcArea.mouseEnabled = value;
+			_skin.mouseChildren = value;
+		}
+		
+		public function set alpha( value:Number ):void
+		{
+			_skin.alpha = value;
 		}
 
 
