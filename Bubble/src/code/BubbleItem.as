@@ -245,7 +245,6 @@ package code
 		{
 			if ( _selected == false ){
 				_selected = value;
-				stopShake();
 				setFrame( LAB_GRAY );
 			}
 		}
