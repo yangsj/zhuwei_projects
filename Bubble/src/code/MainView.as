@@ -67,8 +67,8 @@ package code
 				arrow = mainViewSkin.getChildByName( "arrow" + i ) as MovieClip;
 				if ( mcSkin ) {
 					mcSkin.gotoAndStop( 1 );
-					mcSkin.txtName0.text = "";//itemVo.lab1;
-					mcSkin.txtName1.text = "";//itemVo.lab2;
+					mcSkin.txtName0.text = itemVo.lab1;
+					mcSkin.txtName1.text = itemVo.lab2;
 				}
 				if ( arrow ) arrow.visible = false;
 			}

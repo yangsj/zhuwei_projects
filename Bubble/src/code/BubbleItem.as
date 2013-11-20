@@ -2,6 +2,7 @@ package code
 {
 	import com.greensock.TweenMax;
 	import com.greensock.easing.Back;
+	import com.greensock.easing.Linear;
 	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
@@ -27,14 +28,19 @@ package code
 		
 		private var _selected:Boolean = false;
 		private var _data:ItemVo;
-		private var _startX:Number;
-		private var _startY:Number;
 		private var _isSuccessed:Boolean;
 		private var _isMouseDown:Boolean;
 		private var _isMouseMove:Boolean;
 		private var _speedy:Number = 1;
-		private var _moveArea:Rectangle;
 		private var _moveId:int;
+		private var _startX:Number;
+		private var _startY:Number;
+		private var _startMoveX:Number;
+		private var _startMoveY:Number;
+		private var _startEndX:Number;
+		private var _startEndY:Number;
+		private var _tweenMoveTime:Number = 4;
+		private var _isToEnd:Boolean = true;
 		
 		private const LAB_MOUSE_OUT:String = "lab1"; // 选择前鼠标移开状态
 		private const LAB_GRAY:String = "lab2";// 选择后变成灰态
@@ -47,8 +53,11 @@ package code
 			
 			_startX = _skin.x;
 			_startY = _skin.y;
-			_moveArea = new Rectangle( _startX, _startY - 5, 0, 10 );
-//			
+			_startMoveX = _startX;
+			_startMoveY = _startY - 7.5;
+			_startEndX  = _startX;
+			_startEndY  = _startY + 7.5;
+			
 			_txtName0 = _skin.getChildByName( "txtName0" ) as TextField;
 			_txtName1 = _skin.getChildByName( "txtName1" ) as TextField;
 			
@@ -64,6 +73,8 @@ package code
 			
 			setArrow( false );
 			setFrame( LAB_MOUSE_OUT );
+			
+			_isToEnd = Math.random() < 0.5;
 			startShake();
 		}
 		
@@ -142,15 +153,6 @@ package code
 		{
 			frame = _selected ? LAB_GRAY : frame;
 			_skin.gotoAndStop( frame );
-//			DisplayUtil.stopAllMovieClips( _skin );
-		}
-		
-		private function intervalMove():void
-		{
-			_skin.y += _speedy;
-			if ( !isAtRange( _skin.y, _moveArea.y, _moveArea.y + _moveArea.height ) ){
-				_speedy *= -1;
-			}
 		}
 		
 		private function isAtRange(value:Number, min:Number, max:Number ):Boolean
@@ -165,17 +167,21 @@ package code
 		
 		public function startShake():void
 		{
-			if ( _selected == false )
+			if ( _isToEnd )
 			{
-				stopShake();
-				_speedy *= (Math.random() < 0.5 ? 1 : -1);
-				TickManager.doInterval( intervalMove, 300 );
+				TweenMax.to( _skin, _tweenMoveTime, { x:_startEndX, y:_startEndY, ease:Linear.easeNone, onComplete:startShake });
 			}
+			else
+			{
+				TweenMax.to( _skin, _tweenMoveTime, { x:_startX, y:_startY, ease:Linear.easeNone, onComplete:startShake });
+			}
+			_isToEnd = !_isToEnd;
 		}
 		
 		public function stopShake():void
 		{
-			TickManager.clearDoTime( intervalMove );
+			TweenMax.killTweensOf( _skin );
+			_isToEnd = true;
 			_skin.x = _startX;
 			_skin.y = _startY;
 		}
@@ -202,15 +208,15 @@ package code
 		private var nameBitmap2:Bitmap;
 		public function setLabName():void
 		{
-			DisplayUtil.removedFromParent( nameBitmap1 );
-			DisplayUtil.removedFromParent( nameBitmap2 );
+//			DisplayUtil.removedFromParent( nameBitmap1 );
+//			DisplayUtil.removedFromParent( nameBitmap2 );
 			
-			_txtName0.visible = false;
-			_txtName1.visible = false;
+//			_txtName0.visible = false;
+//			_txtName1.visible = false;
 			
 //			_txtName0.text = data.lab1;
 //			_txtName1.text = data.lab2;
-//			
+			
 //			nameBitmap1 = new Bitmap( new BitmapData( _txtName0.width, _txtName0.height, true, 0), "auto", true );
 //			nameBitmap1.bitmapData.draw( _txtName0 );
 //			nameBitmap1.x = _txtName0.x;
