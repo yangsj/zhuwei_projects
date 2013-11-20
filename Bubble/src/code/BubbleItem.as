@@ -208,20 +208,20 @@ package code
 			_txtName0.visible = false;
 			_txtName1.visible = false;
 			
-			_txtName0.text = data.lab1;
-			_txtName1.text = data.lab2;
-			
-			nameBitmap1 = new Bitmap( new BitmapData( _txtName0.width, _txtName0.height, true, 0), "auto", true );
-			nameBitmap1.bitmapData.draw( _txtName0 );
-			nameBitmap1.x = _txtName0.x;
-			nameBitmap1.y = _txtName0.y;
-			_skin.addChild( nameBitmap1 );
-			
-			nameBitmap2 = new Bitmap( new BitmapData( _txtName1.width, _txtName1.height, true, 0), "auto", true );
-			nameBitmap2.bitmapData.draw( _txtName1 );
-			nameBitmap2.x = _txtName1.x;
-			nameBitmap2.y = _txtName1.y;
-			_skin.addChild( nameBitmap2 );
+//			_txtName0.text = data.lab1;
+//			_txtName1.text = data.lab2;
+//			
+//			nameBitmap1 = new Bitmap( new BitmapData( _txtName0.width, _txtName0.height, true, 0), "auto", true );
+//			nameBitmap1.bitmapData.draw( _txtName0 );
+//			nameBitmap1.x = _txtName0.x;
+//			nameBitmap1.y = _txtName0.y;
+//			_skin.addChild( nameBitmap1 );
+//			
+//			nameBitmap2 = new Bitmap( new BitmapData( _txtName1.width, _txtName1.height, true, 0), "auto", true );
+//			nameBitmap2.bitmapData.draw( _txtName1 );
+//			nameBitmap2.x = _txtName1.x;
+//			nameBitmap2.y = _txtName1.y;
+//			_skin.addChild( nameBitmap2 );
 		}
 		
 		public function setData( data:ItemVo ):void
