@@ -7,7 +7,7 @@
 	import code.MainView;
 	import code.TickManager;
 	
-	[SWF(width="1280", height="760", backgroundColor="0x000000", frameRate="30" )]
+	[SWF(width="1200", height="624", backgroundColor="0x000000", frameRate="30" )]
 	/**
 	 * ……
 	 * @author 	yangsj 

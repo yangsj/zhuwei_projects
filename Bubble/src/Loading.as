@@ -7,11 +7,10 @@ package
 	import flash.events.IOErrorEvent;
 	import flash.events.ProgressEvent;
 	import flash.net.URLRequest;
-	import flash.system.Capabilities;
 	import flash.text.TextField;
 	
 	
-	[SWF(width="1280", height="760", backgroundColor="0x000000", frameRate="30" )]
+	[SWF(width="1200", height="624", backgroundColor="0x000000", frameRate="30" )]
 	/**
 	 * ……
 	 * @author 	yangsj 
@@ -28,7 +27,7 @@ package
 		private var txtPercent:TextField;
 		private var loader:Loader;
 		
-		private var version:String = "?t=0";
+		private var version:String = "?t=1";
 		
 		/*============================================================================*/
 		/* Constructor                                                                */
