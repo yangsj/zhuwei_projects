@@ -27,7 +27,7 @@
 		private var txtPercent:TextField;
 		private var loader:Loader;
 		
-		private var version:String = "?t=5";
+		private var version:String = "?t=6";
 		
 		/*============================================================================*/
 		/* Constructor                                                                */
@@ -83,6 +83,9 @@
 			trace( "loadCompleteHandler" );
 			
 			addChild( loader );
+			
+			if ( mcLoading.parent )
+				mcLoading.parent.removeChild( mcLoading );
 			
 			removeListener();
 		}
