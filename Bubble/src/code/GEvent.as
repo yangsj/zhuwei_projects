@@ -29,6 +29,16 @@ package code
 		 */
 		public static const DRAG_COMPLETE:String = "drag_complete";
 		
+		/**
+		 * 鼠标移上
+		 */
+		public static const MOUSE_OVER:String = "mouse_over";
+		
+		/**
+		 * 鼠标移开
+		 */
+		public static const MOUSE_OUT:String = "mouse_out";
+		
 		
 		
 		

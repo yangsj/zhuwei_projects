@@ -107,6 +107,7 @@ package code
 					break;
 				case MouseEvent.MOUSE_OVER:
 					setFrame( LAB_MOUSE_OVER );
+					_skin.dispatchEvent( new GEvent( GEvent.MOUSE_OVER, this, true ));
 					setArrow( true );
 					break;
 				case MouseEvent.MOUSE_OUT:
@@ -180,13 +181,13 @@ package code
 			} else {
 				TickManager.clearDoTime( initShowArrow );
 				setArrow( false );
-				_hand.visible = false;
 			}
 		}
 		
 		public function setArrow( visible:Boolean ):void
 		{
 			_mcArrow.visible = visible;
+			_hand.visible = false;
 		}
 		
 		public function startShake():void

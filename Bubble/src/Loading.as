@@ -1,4 +1,4 @@
-package
+﻿package
 {
 	import flash.display.Loader;
 	import flash.display.MovieClip;
@@ -27,7 +27,7 @@ package
 		private var txtPercent:TextField;
 		private var loader:Loader;
 		
-		private var version:String = "?t=3";
+		private var version:String = "?t=5";
 		
 		/*============================================================================*/
 		/* Constructor                                                                */

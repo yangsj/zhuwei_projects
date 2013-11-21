@@ -107,6 +107,20 @@ package code
 		{
 			addEventListener( GEvent.DRAG_START, dragStartHandler );
 			addEventListener( GEvent.DRAG_COMPLETE, dragSuccessedHandler ); 
+			addEventListener( GEvent.MOUSE_OVER, itemMouseHandler ); 
+			addEventListener( GEvent.MOUSE_OUT,  itemMouseHandler );
+		}
+		
+		protected function itemMouseHandler( event:GEvent ):void
+		{
+			var item:BubbleItem = event.data as BubbleItem;
+			if ( item ) {
+				if ( event.type == GEvent.MOUSE_OVER ) {
+					for each ( var temp:BubbleItem in vecItems ) {
+						temp.initShowArrow();
+					}
+				}
+			}
 		}
 		
 		private function setItemEnabled( enbled:Boolean, isSelected:Boolean = false, step:int = 1 ):void
