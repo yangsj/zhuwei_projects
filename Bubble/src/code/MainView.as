@@ -69,6 +69,7 @@ package code
 					mcSkin.gotoAndStop( 1 );
 					mcSkin.txtName0.text = itemVo.lab1;
 					mcSkin.txtName1.text = itemVo.lab2;
+					mcSkin.hand.visible = false;
 				}
 				if ( arrow ) arrow.visible = false;
 			}
@@ -79,6 +80,8 @@ package code
 			var arrow:MovieClip;
 			var mcSkin:MovieClip;
 			var item:BubbleItem;
+			var arr:Array = [ -1, 3.1, 6.2, 9.3, 12.4, 15.5, 18.6, 21.7 ];
+			arr.sort( function abc():Number { return int(Math.random() * 3 - 1 ) } );
 			for ( var i:int = 0; i < 8; i++ )
 			{
 				mcSkin = mainViewSkin.getChildByName( "item" + i ) as MovieClip;
@@ -88,6 +91,7 @@ package code
 					mcSkin.alpha = 1;
 					item = new BubbleItem( mcSkin, arrow );
 					item.setData( vecItemsVo[ i ] );
+					item.initShowArrow( arr[ i ] );
 					vecItems.push( item );
 				}
 			}

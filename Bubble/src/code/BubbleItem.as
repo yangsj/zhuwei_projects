@@ -42,6 +42,10 @@ package code
 		private var _tweenMoveTime:Number = 4;
 		private var _isToEnd:Boolean = true;
 		
+		private var nameBitmap1:Bitmap;
+		private var nameBitmap2:Bitmap;
+		private var _hand:Sprite;
+		
 		private const LAB_MOUSE_OUT:String = "lab1"; // 选择前鼠标移开状态
 		private const LAB_GRAY:String = "lab2";// 选择后变成灰态
 		private const LAB_MOUSE_OVER:String = "lab1";// 选择前鼠标移上状态
@@ -60,6 +64,8 @@ package code
 			
 			_txtName0 = _skin.getChildByName( "txtName0" ) as TextField;
 			_txtName1 = _skin.getChildByName( "txtName1" ) as TextField;
+			_hand = _skin.getChildByName( "hand" ) as Sprite;
+			_hand.visible = false;
 			
 			_mcArrow = arrow;
 			_mcArrow.mouseChildren = false;
@@ -101,11 +107,13 @@ package code
 					break;
 				case MouseEvent.MOUSE_OVER:
 					setFrame( LAB_MOUSE_OVER );
+					setArrow( true );
 					break;
 				case MouseEvent.MOUSE_OUT:
 					if ( _isMouseDown == false ) {
 						setFrame( LAB_MOUSE_OUT );
-					}
+						setArrow( false );
+					} 
 					break;
 				case MouseEvent.MOUSE_MOVE:
 					_isMouseMove = true;
@@ -160,6 +168,22 @@ package code
 			return value > min && value < max;
 		}
 		
+		public function initShowArrow( delay:Number = 0 ):void
+		{
+			if ( delay > 0 ) {
+				TickManager.doTimeout( initShowArrow, delay * 1000, -1 );
+			} else if ( delay == -1 ) {
+				TickManager.clearDoTime( initShowArrow );
+				TickManager.doTimeout( initShowArrow, 3000 );
+				setArrow( true );
+				_hand.visible = true;
+			} else {
+				TickManager.clearDoTime( initShowArrow );
+				setArrow( false );
+				_hand.visible = false;
+			}
+		}
+		
 		public function setArrow( visible:Boolean ):void
 		{
 			_mcArrow.visible = visible;
@@ -204,8 +228,6 @@ package code
 			setFrame( LAB_MOUSE_OUT );
 		}
 		
-		private var nameBitmap1:Bitmap;
-		private var nameBitmap2:Bitmap;
 		public function setLabName():void
 		{
 //			DisplayUtil.removedFromParent( nameBitmap1 );
