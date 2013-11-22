@@ -5,6 +5,22 @@ package code
 	
 	/**
 	 * ……
+	 	光采
+		敏锐
+		细腻
+		执着
+		水嫩
+		活力
+		平滑
+		无瑕
+		剔透
+		强韧
+		纯澈
+		简单
+		柔弹
+		灵动
+		透亮
+		明媚
 	 * @author 	yangsj 
 	 * 			2013-11-17
 	 */
@@ -20,14 +36,14 @@ package code
 		public static const eventDispatcher:IEventDispatcher = new Sprite();
 		
 		public static const configXML:XML = <data>
-				<item id="0" labName0="澄净" labName1="乐天" />
-				<item id="1" labName0="细腻" labName1="温润" />
-				<item id="2" labName0="光采" labName1="自信" />
-				<item id="3" labName0="健康" labName1="灵动" />
-				<item id="4" labName0="匀滑" labName1="简单" />
-				<item id="5" labName0="水嫩" labName1="纯真" />
-				<item id="6" labName0="透澈" labName1="纯粹" />
-				<item id="7" labName0="柔弹" labName1="坚强" />
+				<item id="0" labName0="光采" labName1="敏锐" />
+				<item id="1" labName0="细腻" labName1="执着" />
+				<item id="2" labName0="水嫩" labName1="活力" />
+				<item id="3" labName0="平滑" labName1="无瑕" />
+				<item id="4" labName0="剔透" labName1="强韧" />
+				<item id="5" labName0="纯澈" labName1="简单" />
+				<item id="6" labName0="柔弹" labName1="灵动" />
+				<item id="7" labName0="透亮" labName1="明媚" />
 			</data>;
 		
 	}
