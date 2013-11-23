@@ -27,7 +27,7 @@
 		private var txtPercent:TextField;
 		private var loader:Loader;
 		
-		private var version:String = "?t=7";
+		private var version:String = "?t=9";
 		
 		/*============================================================================*/
 		/* Constructor                                                                */

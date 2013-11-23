@@ -1,7 +1,8 @@
 package code
 {
-	import flash.display.Bitmap;
-	import flash.display.BitmapData;
+	import com.greensock.TweenMax;
+	import com.greensock.easing.Back;
+	
 	import flash.display.DisplayObject;
 	import flash.display.InteractiveObject;
 	import flash.display.Loader;
@@ -27,6 +28,7 @@ package code
 		private var _txtLab1:TextField;
 		private var _picContainer:Sprite;
 		private var _mcArea:Sprite;
+		private var _mcBubble:Sprite;
 		
 		private var _data:ItemVo;
 		
@@ -45,6 +47,7 @@ package code
 			_picContainer = _skin.getChildByName( "picContainer" ) as Sprite || new Sprite(); 
 			_btnCommit = _skin.getChildByName( "btnCommit" ) as InteractiveObject;
 			_mcArea = _skin.getChildByName( "mcArea" ) as Sprite || new Sprite(); 
+			_mcBubble = _skin.getChildByName( "mcBubble" ) as Sprite || new Sprite(); 
 			
 			_btnCommit.addEventListener(MouseEvent.CLICK, btnCommitOnClickHandler ); 
 			_mcArea.addEventListener(MouseEvent.MOUSE_UP, mouseHandler, false, int.MAX_VALUE );
@@ -65,6 +68,10 @@ package code
 				loader.load( new URLRequest( AppConfig.playerPicUrl ));
 			}
 			_txtName.text = AppConfig.playerName + "的微修护：";
+			
+			_mcBubble.visible = false;
+			_mcBubble.scaleX = 0.01;
+			_mcBubble.scaleY = 0.01;
 		}
 		
 		protected function loadCompleteHandler(event:Event):void
@@ -100,12 +107,21 @@ package code
 			_skin.gotoAndStop( LAB_YES );
 //			DisplayUtil.stopAllMovieClips( _skin );
 			
-			_txtLab0.visible = true;
-			_txtLab1.visible = true;
-			
 			_txtLab0.text = data.lab1;
 			_txtLab1.text = data.lab2;
 			
+			if ( _mcBubble.visible == false )
+			{
+				_mcBubble.visible = true;
+				_txtLab0.visible = false;
+				_txtLab1.visible = false;
+				TweenMax.to( _mcBubble, 0.3, { scaleX:1, scaleY:1, onComplete:abc, ease:Back.easeOut });
+			}
+			function abc():void
+			{
+				_txtLab0.visible = true;
+				_txtLab1.visible = true;
+			}
 		}
 		
 		private function get desString():String

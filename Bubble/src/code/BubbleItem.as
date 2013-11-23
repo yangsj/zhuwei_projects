@@ -1,4 +1,4 @@
-package code
+﻿package code
 {
 	import com.greensock.TweenMax;
 	import com.greensock.easing.Back;
@@ -213,6 +213,7 @@ package code
 		
 		public function moveToStart( visible:Boolean = true ):void
 		{
+			_skin.mouseChildren = false;
 			if ( visible == false )
 			{
 				_skin.visible = true;
@@ -220,13 +221,18 @@ package code
 				_skin.y = _startY;
 				_skin.scaleX = 0.1;
 				_skin.scaleY = 0.1;
-				TweenMax.to( _skin, 0.5, { scaleX:1, scaleY:1, ease:Back.easeOut });
+				TweenMax.to( _skin, 0.5, { scaleX:1, scaleY:1, ease:Back.easeOut, onComplete:abc });
 			}
 			else
 			{
-				TweenMax.to( _skin, 0.3, { x:_startX, y:_startY });
+				TweenMax.to( _skin, 0.3, { x:_startX, y:_startY, onComplete:abc });
 			}
 			setFrame( LAB_MOUSE_OUT );
+			
+			function abc():void
+			{
+				_skin.mouseChildren = true;
+			}
 		}
 		
 		public function setLabName():void
