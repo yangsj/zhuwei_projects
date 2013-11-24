@@ -69,9 +69,9 @@ package code
 			}
 			_txtName.text = AppConfig.playerName + "的微修护：";
 			
-			_mcBubble.visible = false;
-			_mcBubble.scaleX = 0.01;
-			_mcBubble.scaleY = 0.01;
+//			_mcBubble.visible = false;
+//			_mcBubble.scaleX = 0.01;
+//			_mcBubble.scaleY = 0.01;
 		}
 		
 		protected function loadCompleteHandler(event:Event):void
@@ -110,13 +110,15 @@ package code
 			_txtLab0.text = data.lab1;
 			_txtLab1.text = data.lab2;
 			
-			if ( _mcBubble.visible == false )
-			{
-				_mcBubble.visible = true;
-				_txtLab0.visible = false;
-				_txtLab1.visible = false;
-				TweenMax.to( _mcBubble, 0.3, { scaleX:1, scaleY:1, onComplete:abc, ease:Back.easeOut });
-			}
+			abc();
+			
+//			if ( _mcBubble.visible == false )
+//			{
+//				_mcBubble.visible = true;
+//				_txtLab0.visible = false;
+//				_txtLab1.visible = false;
+//				TweenMax.to( _mcBubble, 0.3, { scaleX:1, scaleY:1, onComplete:abc, ease:Back.easeOut });
+//			}
 			function abc():void
 			{
 				_txtLab0.visible = true;
