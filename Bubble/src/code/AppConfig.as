@@ -15,8 +15,8 @@ package code
 		无瑕
 		剔透
 		强韧
+		匀净
 		纯澈
-		简单
 		柔弹
 		灵动
 		透亮
@@ -41,7 +41,7 @@ package code
 				<item id="2" labName0="水嫩" labName1="活力" />
 				<item id="3" labName0="平滑" labName1="无瑕" />
 				<item id="4" labName0="剔透" labName1="强韧" />
-				<item id="5" labName0="纯澈" labName1="简单" />
+				<item id="5" labName0="匀净" labName1="纯澈" />
 				<item id="6" labName0="柔弹" labName1="灵动" />
 				<item id="7" labName0="透亮" labName1="明媚" />
 			</data>;
