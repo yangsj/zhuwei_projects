@@ -10,6 +10,7 @@ package code
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.external.ExternalInterface;
 	import flash.net.URLRequest;
 	import flash.net.navigateToURL;
 	import flash.text.TextField;
@@ -93,6 +94,9 @@ package code
 			trace("提交"); // step2.php?t=
 			var reqUrl:String = "step3.php?t="+_data.id;
 			navigateToURL(new URLRequest( reqUrl ),"_self");
+			if( ExternalInterface.available ) {
+				ExternalInterface.call( '_smq.push', ['custom', 'action', '22_提交']);
+			}
 		}
 		
 		protected function mouseHandler(event:MouseEvent):void
