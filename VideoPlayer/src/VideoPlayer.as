@@ -1,11 +1,11 @@
-package
+﻿package
 {
 	import flash.display.Sprite;
 	import flash.events.Event;
 	
 	import code.VideoView;
 	
-	[SWF(width="100%", height="100%", backgroundColor="0x000000", frameRate="60" )]
+	//[SWF(width="100%", height="100%", backgroundColor="0x000000", frameRate="60" )]
 	/**
 	 * ……
 	 * @author 	yangsj 
