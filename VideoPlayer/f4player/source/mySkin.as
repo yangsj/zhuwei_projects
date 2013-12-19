@@ -20,6 +20,7 @@ package {
 	import flash.media.SoundMixer;
 	import flash.media.SoundTransform;
 	import flash.media.Video;
+	import flash.external.ExternalInterface;
 	
 	import f4.PlayerInterface;
 
@@ -46,7 +47,8 @@ package {
 			trace("mySkin loaded!");
 		}
 		public function initialization(W:Number,H:Number,player:PlayerInterface,video:String,thumbnail:String,autoplay:Boolean=false,fullscreen:Boolean=true):void {
-			fullscreen = false;
+			this.fullscreen = false;
+			this.player = player;
 			//var togglepause:Boolean = false;
 			var callback:Function = function(i:Object){
 				info = i;
@@ -67,7 +69,7 @@ package {
 				if(info.status == 'NetStream.Buffer.Flush'){
 				
 				}
-				if(info.status == 'NetStream.Play.Stop'){
+				if(info.status == 'NetStream.Play.Stop' || info.status == 'NetStream.Buffer.Empty' ){
 				var clicker:Function = stopEvent;
 				clicker(new MouseEvent(MouseEvent.CLICK));
 				}
@@ -116,6 +118,9 @@ package {
 				overButton.visible = true;
 				nav.playButton.visible = true;
 				nav.pauseButton.visible = false;
+				if ( ExternalInterface.available ) { 
+					ExternalInterface.call( "onendjs" );
+				}
 			};
 			//═ HIDE CONTROLS ═════════════════════════════════════════════════════════════
 			var controlDisplayEvent:Function = function(e:Event):void {
@@ -257,8 +262,10 @@ package {
 			background.y=screen.y=overlay.y=0;
 			background.width = W;
 			background.height = H;
+			trace(1);
 			if (proportion) {
 				player.Log('proportion: '+proportion)
+			trace(2+"_"+1);
 				if(proportion <= (H / W)){
 					screen.width = overlay.width = W;
 					screen.height = overlay.height = W * proportion;
@@ -269,6 +276,7 @@ package {
 				screen.x = overlay.x = (W - screen.width)*.5;
 				screen.y = overlay.y = (H - screen.height)*.5;
 			} else {
+			trace(2+"_"+2);
 				screen.width = overlay.width = W;
 				screen.height = overlay.height = H;
 			}
@@ -278,6 +286,7 @@ package {
 			overButton.y = (H - overButton.height)*.5;
 			buffering.x = (W - buffering.width)*.5;
 			buffering.y = (H - buffering.height)*.5;
+			trace(3);
 			//NAVIGATOR
 			nav.playButton.x=nav.pauseButton.x=padding;
 			nav.pauseButton.y=nav.playButton.y;
@@ -286,6 +295,7 @@ package {
 			var barPadding = (nav.container.height - nav.playingBar.height)*.5;
 			nav.progressBar.x=nav.playingBar.x=nav.container.x+barPadding;
 			nav.progressBar.y=nav.playingBar.y=nav.container.y+barPadding;		
+			trace(4 );
 			if(!playing)
 				nav.seeker.x = nav.container.x + barPadding;
 			nav.seeker.y = nav.container.y - barPadding;
@@ -299,6 +309,7 @@ package {
 			} else {
 				nav.fullscreen.visible=false;
 			}
+			trace( 5);
 			endPoint=nav.volumeBar.x=endPoint-nav.volumeBar.width-padding;
 			nav.container.width=endPoint-nav.container.x-padding;
 			barwidth=nav.container.width-barPadding*2;
@@ -308,6 +319,7 @@ package {
 			nav.progressBar.x = nav.seekBar.x + newWidth;
 			nav.progressBar.width = barwidth - newWidth;
 			}*/
+			trace( "end");
 		}
 
 		private function formatTime(time:Number):String {

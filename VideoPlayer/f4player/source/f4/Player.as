@@ -86,6 +86,7 @@ package f4 {
 						break;
 					}*/
 					status = e.info.code;
+					trace( "status:" + status );
 				}
 			}
 			ns.addEventListener(NetStatusEvent.NET_STATUS, nsEvent);
@@ -103,10 +104,10 @@ package f4 {
 			video.height = settings.height;			
         }*/
 		public function Callback(callback:Function):void {
-			var timer:Timer = new Timer(100);
+			var timer:Timer = new Timer(33);
 			var timerEvent = function(e:TimerEvent):void {
 				var info:Object = Info();
-				if(info.playing >= 100) timer.stop();
+				if(info.playing >= 1 && info.status == 'NetStream.Play.Stop' ) timer.stop();
 				callback(Info());
 			}
 			timer.addEventListener(TimerEvent.TIMER, timerEvent);
@@ -114,6 +115,7 @@ package f4 {
 		}
 		private function Info():Object {
 			var playing:Number = ( ns.time / duration ).toFixed(2);
+			//trace( "playing:" + playing );
 			return {
 				'width': videoWidth,
 				'height': videoHeight,
@@ -211,7 +213,9 @@ package f4 {
         }
 		public function Log(log:String):void {
 			trace(log);
-			ExternalInterface.call("console.log",log);
+			if ( ExternalInterface.available ){
+				ExternalInterface.call("console.log",log);
+			}
         }
 	}
 }
