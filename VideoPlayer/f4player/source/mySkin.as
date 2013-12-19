@@ -42,12 +42,15 @@ package {
 		
 		public var soundBar:MovieClip;
 		public var soundBg:MovieClip;
+		public var top:MovieClip;
+		public var bottom:MovieClip;
+		public var controlBg:MovieClip;
 
 		public function mySkin() {
 			trace("mySkin loaded!");
 		}
 		public function initialization(W:Number,H:Number,player:PlayerInterface,video:String,thumbnail:String,autoplay:Boolean=false,fullscreen:Boolean=true):void {
-			this.fullscreen = false;
+			//this.fullscreen = fullscreen;
 			this.player = player;
 			//var togglepause:Boolean = false;
 			var callback:Function = function(i:Object){
@@ -56,6 +59,7 @@ package {
 				nav.progressBar.width = (info.progress * barwidth);
 				nav.playingBar.width = (info.playing * barwidth);
 				nav.seeker.x = nav.playingBar.x + (info.playing * barwidth);
+				nav.barPoint.x = nav.seeker.x;
 				nav.seeker.currentTime.text = formatTime(info.time);
 				proportion = info.height / info.width;
 				
@@ -254,6 +258,9 @@ package {
 
 			// 自动播放
 			overButton.dispatchEvent( new MouseEvent( MouseEvent.CLICK ));
+			
+			top.visible = false;
+			bottom.visible = false;
 		}
 		//═ POSE ══════════════════════════════════════════════════════════════════════
 		public function pose(W:Number,H:Number):void {
@@ -262,10 +269,8 @@ package {
 			background.y=screen.y=overlay.y=0;
 			background.width = W;
 			background.height = H;
-			trace(1);
 			if (proportion) {
 				player.Log('proportion: '+proportion)
-			trace(2+"_"+1);
 				if(proportion <= (H / W)){
 					screen.width = overlay.width = W;
 					screen.height = overlay.height = W * proportion;
@@ -276,7 +281,6 @@ package {
 				screen.x = overlay.x = (W - screen.width)*.5;
 				screen.y = overlay.y = (H - screen.height)*.5;
 			} else {
-			trace(2+"_"+2);
 				screen.width = overlay.width = W;
 				screen.height = overlay.height = H;
 			}
@@ -286,7 +290,6 @@ package {
 			overButton.y = (H - overButton.height)*.5;
 			buffering.x = (W - buffering.width)*.5;
 			buffering.y = (H - buffering.height)*.5;
-			trace(3);
 			//NAVIGATOR
 			nav.playButton.x=nav.pauseButton.x=padding;
 			nav.pauseButton.y=nav.playButton.y;
@@ -295,7 +298,6 @@ package {
 			var barPadding = (nav.container.height - nav.playingBar.height)*.5;
 			nav.progressBar.x=nav.playingBar.x=nav.container.x+barPadding;
 			nav.progressBar.y=nav.playingBar.y=nav.container.y+barPadding;		
-			trace(4 );
 			if(!playing)
 				nav.seeker.x = nav.container.x + barPadding;
 			nav.seeker.y = nav.container.y - barPadding;
@@ -309,17 +311,28 @@ package {
 			} else {
 				nav.fullscreen.visible=false;
 			}
-			trace( 5);
 			endPoint=nav.volumeBar.x=endPoint-nav.volumeBar.width-padding;
 			nav.container.width=endPoint-nav.container.x-padding;
 			barwidth=nav.container.width-barPadding*2;
 			nav.progressBar.width=nav.playingBar.width=barwidth;
+			nav.controlBg.width = W;
 			/*if(progress){ // progress bar size
 			var newWidth:Number =((progress * barwidth *.01) >> 0);
 			nav.progressBar.x = nav.seekBar.x + newWidth;
 			nav.progressBar.width = barwidth - newWidth;
 			}*/
-			trace( "end");
+/*
+			var ww:int = 40;
+			top.x = 0;
+			top.y = 0;
+			top.height = ww;
+			top.width = W;
+			
+			bottom.x = 0;
+			bottom.y = H - ww;
+			bottom.height = ww;
+			bottom.width = W;
+			*/
 		}
 
 		private function formatTime(time:Number):String {
