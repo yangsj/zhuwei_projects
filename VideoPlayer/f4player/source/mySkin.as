@@ -58,6 +58,8 @@ package {
 			var callback:Function = function(i:Object){
 				info = i;
 				
+				nav.seeker.visible = false;
+				
 				nav.progressBar.width = (info.progress * barwidth);
 				nav.playingBar.width = (info.playing * barwidth);
 				nav.seeker.x = nav.playingBar.x + (info.playing * barwidth);
