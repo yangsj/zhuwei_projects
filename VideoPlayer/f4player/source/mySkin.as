@@ -39,6 +39,8 @@ package {
 
 		var seeking:Boolean=false;
 		
+		private var isPlayOvered:Boolean = true;
+		
 		
 		public var soundBar:MovieClip;
 		public var soundBg:MovieClip;
@@ -74,10 +76,12 @@ package {
 				
 				}
 				if(info.status == 'NetStream.Play.Stop' || info.status == 'NetStream.Buffer.Empty' ){
-				var clicker:Function = stopEvent;
-				clicker(new MouseEvent(MouseEvent.CLICK));
+					isPlayOvered = true;
+					var clicker:Function = stopEvent;
+					clicker(new MouseEvent(MouseEvent.CLICK));
 				}
 			};
+			isPlayOvered = false;
 			player.Callback(callback);
 			
 			var movie:Video=player.Movie(W,H);
@@ -101,6 +105,11 @@ package {
 					playing = player.Play(video);
 					overButton.visible = false;
 					nav.seeker.visible = true;
+					
+					if ( isPlayOvered ) {
+						isPlayOvered = false;
+						player.Callback(callback);
+					}
 				}
 				nav.playButton.visible = false;
 				nav.pauseButton.visible = true;
@@ -112,11 +121,16 @@ package {
 				var isPause:Boolean = player.Pause();
 				nav.playButton.visible = isPause;
 				nav.pauseButton.visible = !isPause;
+				if ( isPlayOvered ) {
+					isPlayOvered = false;
+					player.Callback(callback);
+				}
 			};
 			overlay.addEventListener(MouseEvent.CLICK, pauseEvent);
 			nav.pauseButton.addEventListener(MouseEvent.CLICK, pauseEvent);
 			//═ STOP ══════════════════════════════════════════════════════════════════════
 			var stopEvent:Function = function(e:Event):void {
+				isPlayOvered = true;
 				player.Stop();
 				playing = false;
 				overButton.visible = true;
@@ -303,7 +317,7 @@ package {
 			nav.seeker.y = nav.container.y - barPadding;
 			rectangle = new Rectangle(nav.progressBar.x,nav.seeker.y,barwidth,0);			
 			//nav.playingBar.width = 0;
-			nav.y=H-nav.height-padding*.5;
+			nav.y=H-nav.height-0//padding*.5;
 			nav.bar.width=W-nav.bar.x-padding;
 			var endPoint:int=nav.bar.x+nav.bar.width;
 			if (fullscreen) {
